@@ -31,7 +31,7 @@ namespace API.Models
         /// <summary>
         /// The number og active students in the course.
         /// </summary>
-        public int StudentCout { get; set; }
+        public int StudentCount { get; set; }
 
     }
 }
