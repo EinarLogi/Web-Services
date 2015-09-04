@@ -1,0 +1,5 @@
+C:\Users\vignir13\Documents\GitHub\v2\API.Models\bin\Debug\API.Models.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Models\bin\Debug\API.Models.pdb
+C:\Users\vignir13\Documents\GitHub\v2\API.Models\obj\Debug\API.Models.csprojResolveAssemblyReference.cache
+C:\Users\vignir13\Documents\GitHub\v2\API.Models\obj\Debug\API.Models.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Models\obj\Debug\API.Models.pdb
