@@ -44,7 +44,6 @@ namespace API.Services
 
                          }).ToList();
 
-
             return null;
         }
     }
