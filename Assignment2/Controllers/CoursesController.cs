@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,22 @@ namespace Assignment2.Controllers
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {
-        private List<CourseDTO> _courses;
+        private readonly CoursesServiceProvider _service;
 
         public CoursesController()
         {
-            _courses = new List<CourseDTO>();
+            _service = new CoursesServiceProvider();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of courses</returns>
         [HttpGet]
         [Route("")]
-        public List<CourseDTO> GetCourses()
+        public List<CourseDTO> GetCourses(string semester = null)
         {
-            return _courses;
+            return _service.GetCoursesBySemester(semester);
         }
 
         /// <summary>
@@ -42,5 +43,5 @@ namespace Assignment2.Controllers
         {
             return null;
         }
-    } 
+    }
 }

@@ -486,11 +486,11 @@
             This alert represents...
             </summary>
         </member>
-        <member name="M:Assignment2.Controllers.CoursesController.GetCourses">
+        <member name="M:Assignment2.Controllers.CoursesController.GetCourses(System.String)">
             <summary>
             
             </summary>
-            <returns></returns>
+            <returns>A list of courses</returns>
         </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse">
             <summary>
