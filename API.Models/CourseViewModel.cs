@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace API.Models
+{
+    public class CourseViewModel
+    {
+        /// <summary>
+        /// The ID of the course being created.
+        /// Example:"T-514-VEFT
+        /// </summary>
+        public string CourseID { get; set; }
+
+        /// <summary>
+        /// The semester in which the course is taught
+        /// Example: "2015"
+        /// </summary>
+        public string  Semester { get; set; }
+    }
+}
