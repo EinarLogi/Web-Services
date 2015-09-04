@@ -5,3 +5,15 @@ C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.d
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.pdb
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.pdb
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.pdb
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.pdb
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.csprojResolveAssemblyReference.cache
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.pdb
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.dll.config
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.xml
+C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.xml
