@@ -28,5 +28,10 @@ namespace API.Models
         /// </summary>
         public DateTime StartDate { get; set; }
 
+        /// <summary>
+        /// The number og active students in the course.
+        /// </summary>
+        public int StudentCout { get; set; }
+
     }
 }
