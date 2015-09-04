@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Assignment2.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -285,10 +286,13 @@
       <Project>{d1a7744b-e195-4724-90c8-f607d6ff2312}</Project>
       <Name>API.Models</Name>
     </ProjectReference>
+<<<<<<< HEAD
     <ProjectReference Include="..\API.Services\API.Services.csproj">
       <Project>{43e4b05f-3f8a-4532-b059-0856f71b32cf}</Project>
       <Name>API.Services</Name>
     </ProjectReference>
+=======
+>>>>>>> 286b3e69291f3f2ef509b64475446360c13438d1
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

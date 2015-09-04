@@ -18,11 +18,12 @@ namespace API.Services
         /// <returns></returns>
         public List<CourseDTO> GetCoursesBySemester(string semester = null)
         {
-            if (string.IsNullOrEmpty(semsester))
+            if (string.IsNullOrEmpty(semester))
             {
                 semester = "20153";
             }
             //TODO: get all courses belonging to "semester"
+            return null;
         }
     }
 }

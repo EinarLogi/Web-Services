@@ -75,6 +75,7 @@ C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\System.Web.Http.Owin.xml
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.csprojResolveAssemblyReference.cache
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.dll
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.pdb
+<<<<<<< HEAD
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\roslyn\csc.exe
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -156,3 +157,8 @@ C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\API.Models.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\API.Services.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\API.Models.pdb
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\API.Services.pdb
+=======
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.XML
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\API.Models.dll
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\API.Models.pdb
+>>>>>>> 286b3e69291f3f2ef509b64475446360c13438d1
