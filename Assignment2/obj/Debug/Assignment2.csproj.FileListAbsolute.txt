@@ -75,3 +75,6 @@ C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\System.Web.Http.Owin.xml
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.csprojResolveAssemblyReference.cache
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.dll
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.pdb
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.XML
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\API.Models.dll
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\API.Models.pdb

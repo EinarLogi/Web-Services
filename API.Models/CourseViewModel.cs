@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
+    /// <summary>
+    /// This class represents the data necessary to create
+    /// a single course taught in a given semester.
+    /// </summary>
     public class CourseViewModel
     {
         /// <summary>
