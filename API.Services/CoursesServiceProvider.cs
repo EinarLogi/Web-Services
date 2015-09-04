@@ -34,6 +34,7 @@ namespace API.Services
                 semester = "20153";
             }
             //TODO: get all courses belonging to "semester"
+
             var result = (from c in _db.Courses
                          where c.Semester == semester
                          select new CourseDTO
@@ -44,7 +45,7 @@ namespace API.Services
 
                          }).ToList();
 
-            return null;
+            return result;
         }
     }
 }
