@@ -26,7 +26,7 @@ namespace API.Models
         /// The time portion is unused
         /// Example: "20.08.2015"
         /// </summary>
-        public DateTime StartDate { get; set}
+        public DateTime StartDate { get; set; }
 
     }
 }

@@ -1,0 +1,7 @@
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.csprojResolveAssemblyReference.cache
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Models.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\obj\Debug\API.Services.pdb

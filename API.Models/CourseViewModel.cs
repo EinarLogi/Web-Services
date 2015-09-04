@@ -16,7 +16,7 @@ namespace API.Models
 
         /// <summary>
         /// The semester in which the course is taught
-        /// Example: "2015"
+        /// Example: "20153"
         /// </summary>
         public string  Semester { get; set; }
     }
