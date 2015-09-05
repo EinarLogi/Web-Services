@@ -500,6 +500,7 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+<<<<<<< HEAD
         <member name="M:Assignment2.Controllers.CoursesController.DeleteCourseById(System.Int32)">
             <summary>
             Deletes a specific course from the database given by id.
@@ -508,6 +509,15 @@
             <returns></returns>
         </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse(System.Int32)">
+=======
+        <member name="M:Assignment2.Controllers.CoursesController.GetById(System.Int32)">
+            <summary>
+            Returns detailed information about a course.
+            </summary>
+            <returns>A CourseDetailsDTO object</returns>
+        </member>
+        <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse">
+>>>>>>> 92825e0638c231ffd66f0755be570df94c54395e
             <summary>
             Returns a list of active students in a course
             </summary>

@@ -168,5 +168,49 @@ namespace API.Services
             };
             return result;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">ID of the requested course</param>
+        /// <returns>A CourseDetailsDTO object</returns>
+        public CourseDetailsDTO GetCourseById(int id)
+        {
+            // 1. Validate
+            var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
+            if (courseEntity == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            // 2. G
+            // 
+
+            var listOfStudents = (from p in _db.Persons
+                                  join cs in _db.CourseStudents
+                                          on id equals cs.CourseID
+                                  where p.ID == cs.PersonID
+                                  select new StudentDTO
+                                  {
+                                      Name      = p.Name,
+                                      SSN       = p.SSN
+                                  }).ToList();
+
+
+            var courseObj = (from c in _db.Courses
+                            join ct in _db.CourseTemplates
+                                  on c.CourseIdentifier equals ct.CourseID
+                            where c.ID == id
+                            select new CourseDetailsDTO
+                            {
+                                ID              = c.ID,
+                                Name            = ct.Name,
+                                //Students        = listOfStudents,
+                                Description     = "Descriptione"
+                            }).SingleOrDefault();
+            courseObj.Students = listOfStudents;
+
+            return courseObj;
+        }
     }
 }
