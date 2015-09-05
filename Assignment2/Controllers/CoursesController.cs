@@ -46,15 +46,17 @@ namespace Assignment2.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
-        public CourseDTO UpdateCourse(int id, CourseUpdateViewModel model)
+        [ResponseType(typeof(CourseDTO))]
+        public IHttpActionResult UpdateCourse(int id, CourseUpdateViewModel model)
         {
             try
             {
-                return _service.UpdateCourse(id, model);
+                var result = _service.UpdateCourse(id, model);
+                return Content(HttpStatusCode.OK, result);
             }
             catch (AppObjectNotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
             
         }
@@ -80,7 +82,7 @@ namespace Assignment2.Controllers
             catch (AppObjectNotFoundException)
             {
 
-                return NotFound();
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
         /// Returns detailed information about a course.
@@ -135,9 +137,7 @@ namespace Assignment2.Controllers
         [ResponseType(typeof(StudentDTO))]
         public IHttpActionResult AddStudentToCourse(int id, AddStudentViewModel model)
         {
-            //TODO
-            //1.Validation
-
+            // Validation
             if (ModelState.IsValid)
             {
                 try
@@ -155,7 +155,6 @@ namespace Assignment2.Controllers
             {
                 return StatusCode(HttpStatusCode.PreconditionFailed);
             }
-        }
-       
+        }   
     }
 }
