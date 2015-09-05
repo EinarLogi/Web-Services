@@ -37,6 +37,7 @@ namespace Assignment2.Controllers
             return _service.GetCoursesBySemester(semester);
         }
 
+
         /// <summary>
         /// Update information of a course with a given id
         /// </summary>
@@ -59,14 +60,49 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
+        /// Deletes a specific course from the database given by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult DeleteCourseById(int id)
+        {
+            try
+            {
+                _service.DeleteCourseById(id);
+
+                IHttpActionResult response;
+                HttpResponseMessage responsemsg = new HttpResponseMessage(HttpStatusCode.NoContent);
+                response = ResponseMessage(responsemsg);
+                return response;
+            }
+            catch (AppObjectNotFoundException)
+            {
+
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Returns a list of active students in a course
         /// </summary>
         /// <returns>A list of student objects</returns>
         [HttpGet]
         [Route("{id}/students")]
-        public List<StudentDTO> GetStudentsInCourse()
+        public IHttpActionResult GetStudentsInCourse(int id)
         {
-            return null;
+            try
+            {
+                var result = _service.GetStudentsInCourse(id);
+                return Ok(result);
+            }
+            catch (AppObjectNotFoundException)
+            {
+
+                return NotFound();
+            }
+          
         }
 
         /// <summary>
@@ -101,7 +137,6 @@ namespace Assignment2.Controllers
                 return StatusCode(HttpStatusCode.PreconditionFailed);
             }
         }
-
-
+       
     }
 }
