@@ -27,7 +27,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of courses
         /// </summary>
         /// <returns>A list of courses</returns>
         [HttpGet]
@@ -38,7 +38,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// TODO
+        /// Update information of a course with a given id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
@@ -70,7 +70,7 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Adds a student to a course with a given ID
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>

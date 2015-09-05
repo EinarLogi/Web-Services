@@ -12,9 +12,23 @@ namespace API.Models
     /// </summary>
     public class CourseDetailsDTO
     {
+        /// <summary>
+        /// Unique identifier for the course
+        /// </summary>
         public int ID { get; set; }
+        /// <summary>
+        /// Name of the course
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// List of students in the course
+        /// </summary>
         public List<StudentDTO> Students { get; set; }
+
+        /// <summary>
+        /// Description of the course
+        /// </summary>
         public string Description { get; set; }
 
     }
