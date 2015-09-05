@@ -11,7 +11,6 @@ C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\roslyn\vbc.exe
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\roslyn\VBCSCompiler.exe
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.dll.config
-C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.XML
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.dll
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Assignment2.pdb
 C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\Antlr3.Runtime.dll
@@ -162,3 +161,4 @@ C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.c
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\obj\Debug\Assignment2.pdb
 C:\Users\einarlogi.hertz\Documents\GitHub\v2\Assignment2\bin\XmlDocument.xml
+C:\Users\vignir13\Documents\GitHub\v2\Assignment2\bin\XmlDocument.xml

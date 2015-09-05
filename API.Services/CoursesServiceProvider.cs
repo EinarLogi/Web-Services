@@ -52,10 +52,10 @@ namespace API.Services
 
             return result;
         }
+
         public StudentDTO AddStudentToCourse(int id, AddStudentViewModel model)
         {
             
-
             var course = _db.Courses.SingleOrDefault(x => x.ID == id);
             //if course doesn't exist an error will be thrown. Not possible to add student to non existing courses
             if (course == null)
