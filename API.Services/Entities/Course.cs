@@ -17,7 +17,7 @@ namespace API.Services.Entities
         /// An identifier for the template course
         /// Example: "T-514-VEFT"
         /// </summary>
-        public string CourseIdentifer { get; set; }
+        public string CourseIdentifier { get; set; }
 
         /// <summary>
         /// 

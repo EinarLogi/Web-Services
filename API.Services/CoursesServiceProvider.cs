@@ -33,17 +33,18 @@ namespace API.Services
             {
                 semester = "20153";
             }
-            //TODO: get all courses belonging to "semester"
 
             var result = (from c in _db.Courses
-                         where c.Semester == semester
-                         select new CourseDTO
-                         {
-                             ID = c.ID,
-                             StartDate = c.StartDate,
-                             //Name =
-
-                         }).ToList();
+                          join ct in _db.CourseTemplates
+                                  on c.CourseIdentifier equals ct.CourseID
+                          where c.Semester == semester
+                          select new CourseDTO
+                          {
+                            ID              = c.ID,
+                            StartDate       = c.StartDate,
+                            Name            = ct.Name,
+                            StudentCount    = 0 // TODO!! Þarf ad baeta vid tolfu fyrir numendur o.flr.
+                           }).ToList();
 
             return result;
         }

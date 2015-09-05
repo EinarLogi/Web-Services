@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CoursesServiceProvider.cs" />
     <Compile Include="Entities\Course.cs" />
+    <Compile Include="Entities\CourseTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AppDataContext.cs" />
   </ItemGroup>
