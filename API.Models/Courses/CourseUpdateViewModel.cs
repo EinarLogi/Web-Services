@@ -13,19 +13,19 @@ namespace API.Models.Courses
     public class CourseUpdateViewModel
     {
         /// <summary>
-        /// 
+        /// Example: "15.08.2015"
         /// </summary>
         [Required]
         public DateTime StartDate { get; set; }
 
         /// <summary>
-        /// 
+        /// Example: "20.11.2015"
         /// </summary>
         [Required]
         public DateTime EndDate { get; set; }
 
         /// <summary>
-        /// 
+        /// Example: "20153"
         /// </summary>
         [Required]
         public string Semester { get; set; }
