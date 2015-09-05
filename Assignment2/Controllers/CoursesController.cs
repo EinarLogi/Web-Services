@@ -99,7 +99,7 @@ namespace Assignment2.Controllers
             }
             catch (AppObjectNotFoundException)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
 
@@ -119,7 +119,7 @@ namespace Assignment2.Controllers
             catch (AppObjectNotFoundException)
             {
 
-                return NotFound();
+                return StatusCode(HttpStatusCode.NotFound);
             }
           
         }
