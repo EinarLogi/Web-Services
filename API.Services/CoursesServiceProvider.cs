@@ -74,6 +74,7 @@ namespace API.Services
 
             _db.Courses.Remove(course);
             _db.CourseTemplates.Remove(courseTemplate);
+            _db.SaveChanges();
 
 
         }
