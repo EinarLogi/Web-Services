@@ -60,7 +60,6 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
-<<<<<<< HEAD
         /// Deletes a specific course from the database given by id.
         /// </summary>
         /// <param name="id"></param>
@@ -82,7 +81,8 @@ namespace Assignment2.Controllers
             {
 
                 return NotFound();
-=======
+            }
+        }
         /// Returns detailed information about a course.
         /// </summary>
         /// <returns>A CourseDetailsDTO object</returns>
@@ -100,7 +100,6 @@ namespace Assignment2.Controllers
             catch (AppObjectNotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
->>>>>>> 92825e0638c231ffd66f0755be570df94c54395e
             }
         }
 
