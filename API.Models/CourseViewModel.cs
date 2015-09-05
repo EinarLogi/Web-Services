@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,14 @@ namespace API.Models
         /// The ID of the course being created.
         /// Example:"T-514-VEFT
         /// </summary>
+        [Required]
         public string CourseID { get; set; }
 
         /// <summary>
         /// The semester in which the course is taught
         /// Example: "20153"
         /// </summary>
+        [Required]
         public string  Semester { get; set; }
     }
 }

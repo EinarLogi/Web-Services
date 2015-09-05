@@ -47,11 +47,59 @@ namespace API.Services
                             ID              = c.ID,
                             StartDate       = c.StartDate,
                             Name            = ct.Name,
-                            StudentCount    = 0 // TODO!! Þarf ad baeta vid tolfu fyrir numendur o.flr.
+                            StudentCount    = 0 
                            }).ToList();
 
             return result;
         }
+
+        /// <summary>
+        /// Deletes a course from Courses and CourseTemplates.
+        /// Carfeul.
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteCourseById(int id)
+        {
+            var course = _db.Courses.SingleOrDefault(x  => x.ID == id);
+
+            //course not in database
+            if(course == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            var courseTemplate = (from ct in _db.CourseTemplates
+                         where ct.CourseID == course.CourseIdentifier select ct).Single();
+
+
+            _db.Courses.Remove(course);
+            _db.CourseTemplates.Remove(courseTemplate);
+
+
+        }
+
+        public List<StudentDTO> GetStudentsInCourse(int id)
+        {
+            var course = _db.Courses.SingleOrDefault(x => x.ID == id);
+
+            if (course == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            var result = (from p in _db.Persons
+                          join cs in _db.CourseStudents
+                                  on id equals cs.CourseID
+                          where p.ID == cs.PersonID
+                          select new StudentDTO
+                          {
+                              Name = p.Name,
+                              SSN = p.SSN
+                          }).ToList();
+
+            return result;
+        }
+
 
         public StudentDTO AddStudentToCourse(int id, AddStudentViewModel model)
         {
