@@ -59,6 +59,27 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
+        /// Returns detailed information about a course.
+        /// </summary>
+        /// <returns>A CourseDetailsDTO object</returns>
+        [HttpGet]
+        [Route("{id}")]
+        [ResponseType(typeof(CourseDetailsDTO))]
+        public IHttpActionResult GetCourseById(int id)
+        {
+            try
+            {
+                // ATH: Er rétt að returna OK?
+                var result = _service.GetCourseById(id);
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (AppObjectNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
+
+        /// <summary>
         /// Returns a list of active students in a course
         /// </summary>
         /// <returns>A list of student objects</returns>

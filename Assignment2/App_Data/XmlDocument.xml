@@ -500,6 +500,12 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Assignment2.Controllers.CoursesController.GetById(System.Int32)">
+            <summary>
+            Returns detailed information about a course.
+            </summary>
+            <returns>A CourseDetailsDTO object</returns>
+        </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse">
             <summary>
             Returns a list of active students in a course
