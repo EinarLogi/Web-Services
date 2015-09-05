@@ -492,11 +492,27 @@
             </summary>
             <returns>A list of courses</returns>
         </member>
+        <member name="M:Assignment2.Controllers.CoursesController.UpdateCourse(System.Int32,API.Models.Courses.CourseUpdateViewModel)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse">
             <summary>
             Returns a list of active students in a course
             </summary>
             <returns>A list of student objects</returns>
+        </member>
+        <member name="M:Assignment2.Controllers.CoursesController.AddStudentToCourse(System.Int32,API.Models.Courses.Students.AddStudentViewModel)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <returns></returns>
         </member>
         <member name="P:Assignment2.Models.Course.ID">
             <summary>

@@ -17,3 +17,8 @@ C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.dll
 C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.xml
 C:\Users\vignir13\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\API.Services.dll.config
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.xml
+C:\Users\einarlogi.hertz\Documents\GitHub\v2\API.Services\bin\Debug\EntityFramework.SqlServer.xml
