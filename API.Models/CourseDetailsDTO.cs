@@ -25,11 +25,5 @@ namespace API.Models
         /// List of students in the course
         /// </summary>
         public List<StudentDTO> Students { get; set; }
-
-        /// <summary>
-        /// Description of the course
-        /// </summary>
-        public string Description { get; set; }
-
     }
 }

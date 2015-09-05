@@ -68,15 +68,8 @@ namespace API.Services
                 throw new AppObjectNotFoundException();
             }
 
-            var courseTemplate = (from ct in _db.CourseTemplates
-                         where ct.CourseID == course.CourseIdentifier select ct).Single();
-
-
             _db.Courses.Remove(course);
-            _db.CourseTemplates.Remove(courseTemplate);
             _db.SaveChanges();
-
-
         }
 
         public List<StudentDTO> GetStudentsInCourse(int id)
@@ -140,8 +133,7 @@ namespace API.Services
 
         public CourseDTO UpdateCourse(int id, CourseUpdateViewModel model)
         {
-            //1. Validate
-            //2. Update
+            // Validate
             var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
             if(courseEntity == null)
             {
@@ -152,7 +144,7 @@ namespace API.Services
             courseEntity.EndDate = model.EndDate;
 
             _db.SaveChanges();
-            //3.Return
+            // Return
             var courseTemplate = _db.CourseTemplates.SingleOrDefault(x => x.CourseID == courseEntity.CourseIdentifier);
             if (courseTemplate == null)
             {
@@ -184,9 +176,6 @@ namespace API.Services
                 throw new AppObjectNotFoundException();
             }
 
-            // 2. G
-            // 
-
             var listOfStudents = (from p in _db.Persons
                                   join cs in _db.CourseStudents
                                           on id equals cs.CourseID
@@ -205,10 +194,9 @@ namespace API.Services
                             select new CourseDetailsDTO
                             {
                                 ID              = c.ID,
-                                Name            = ct.Name,
-                                //Students        = listOfStudents,
-                                Description     = "Descriptione"
+                                Name            = ct.Name
                             }).SingleOrDefault();
+            // Add listOfStudents to the courseObj
             courseObj.Students = listOfStudents;
 
             return courseObj;
