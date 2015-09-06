@@ -33,9 +33,11 @@ namespace Assignment2.Controllers
         /// <returns>A list of courses</returns>
         [HttpGet]
         [Route("")]
-        public List<CourseDTO> GetCourses(string semester = null)
+        [ResponseType(typeof(List<CourseDTO>))]
+        public IHttpActionResult GetCourses(string semester = null)
         {
-            return _service.GetCoursesBySemester(semester);
+            var result = _service.GetCoursesBySemester(semester);
+            return Content(HttpStatusCode.OK, result);
         }
 
 
@@ -126,7 +128,7 @@ namespace Assignment2.Controllers
             try
             {
                 var result = _service.GetStudentsInCourse(id);
-                return Ok(result);
+                return Content(HttpStatusCode.OK, result);
             }
             catch (AppObjectNotFoundException)
             {

@@ -71,7 +71,11 @@ namespace API.Services
             _db.Courses.Remove(course);
             _db.SaveChanges();
         }
-
+        /// <summary>
+        /// Returs a list of students in a given course.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<StudentDTO> GetStudentsInCourse(int id)
         {
             var course = _db.Courses.SingleOrDefault(x => x.ID == id);
@@ -94,7 +98,12 @@ namespace API.Services
             return result;
         }
 
-
+        /// <summary>
+        /// Adds a student to a given course
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public StudentDTO AddStudentToCourse(int id, AddStudentViewModel model)
         {
             
@@ -130,7 +139,12 @@ namespace API.Services
             };
             return returnValue;
         }
-
+        /// <summary>
+        /// Updates a specific course by a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public CourseDTO UpdateCourse(int id, CourseUpdateViewModel model)
         {
             // Validate
@@ -163,7 +177,7 @@ namespace API.Services
         }
 
         /// <summary>
-        /// 
+        /// Returns CourseDetails for a specific course
         /// </summary>
         /// <param name="id">ID of the requested course</param>
         /// <returns>A CourseDetailsDTO object</returns>
