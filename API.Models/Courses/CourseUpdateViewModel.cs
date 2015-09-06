@@ -23,12 +23,5 @@ namespace API.Models.Courses
         /// </summary>
         [Required]
         public DateTime EndDate { get; set; }
-
-        /// <summary>
-        /// Example: "20153"
-        /// </summary>
-        [Required]
-        public string Semester { get; set; }
-
     }
 }

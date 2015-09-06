@@ -14,6 +14,7 @@ namespace API.Models.Courses.Students
     {
         /// <summary>
         /// The SSN of the student
+        /// Example: "0501882999"
         /// </summary>
         [Required]
         public string SSN { get; set; }
