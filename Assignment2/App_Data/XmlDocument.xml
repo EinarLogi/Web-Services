@@ -481,9 +481,9 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="T:Assignment2.Controllers.CoursesController">
+        <member name="M:Assignment2.Controllers.CoursesController.#ctor">
             <summary>
-            This alert represents...
+            Constructor that initializes _service.
             </summary>
         </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetCourses(System.String)">
@@ -496,18 +496,25 @@
             <summary>
             Update information of a course with a given id
             </summary>
-            <param name="id"></param>
-            <param name="model"></param>
-            <returns></returns>
+            <param name="id">The id of the course to be updated</param>
+            <param name="model">The data needed tu update a course</param>
+            <returns>The updated course</returns>
         </member>
         <member name="M:Assignment2.Controllers.CoursesController.DeleteCourseById(System.Int32)">
             <summary>
             Deletes a specific course from the database given by id.
             </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">The id of the course to be removed</param>
+            <returns>A statuscode</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Assignment2.Controllers.CoursesController.GetCourseById(System.Int32)" -->
+        <member name="M:Assignment2.Controllers.CoursesController.GetCourseById(System.Int32)">
+            <summary>
+            Returns a detailed information about a course with  a
+            given ID.
+            </summary>
+            <param name="id">The ID of the requested course</param>
+            <returns>A CourseDetailsDTO object</returns>
+        </member>
         <member name="M:Assignment2.Controllers.CoursesController.GetStudentsInCourse(System.Int32)">
             <summary>
             Returns a list of active students in a course
@@ -518,8 +525,8 @@
             <summary>
             Adds a student to a course with a given ID
             </summary>
-            <param name="id"></param>
-            <param name="model"></param>
+            <param name="id">The ID of the course</param>
+            <param name="model">A model containing the SSN of the student</param>
             <returns></returns>
         </member>
     </members>

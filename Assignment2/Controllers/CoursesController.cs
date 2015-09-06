@@ -13,14 +13,15 @@ using System.Web.Http.Description;
 
 namespace Assignment2.Controllers
 {
-    /// <summary>
-    /// This alert represents...
-    /// </summary>
+
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {
         private readonly CoursesServiceProvider _service;
 
+        /// <summary>
+        /// Constructor that initializes _service.
+        /// </summary>
         public CoursesController()
         {
             _service = new CoursesServiceProvider();
@@ -41,30 +42,37 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Update information of a course with a given id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="id">The id of the course to be updated</param>
+        /// <param name="model">The data needed tu update a course</param>
+        /// <returns>The updated course</returns>
         [HttpPut]
         [Route("{id}")]
         [ResponseType(typeof(CourseDTO))]
         public IHttpActionResult UpdateCourse(int id, CourseUpdateViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var result = _service.UpdateCourse(id, model);
-                return Content(HttpStatusCode.OK, result);
+                try
+                {
+                    var result = _service.UpdateCourse(id, model);
+                    return Content(HttpStatusCode.OK, result);
+                }
+                catch (AppObjectNotFoundException)
+                {
+                    return StatusCode(HttpStatusCode.NotFound);
+                }
             }
-            catch (AppObjectNotFoundException)
+            else
             {
-                return StatusCode(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.PreconditionFailed);
             }
         }
 
         /// <summary>
         /// Deletes a specific course from the database given by id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The id of the course to be removed</param>
+        /// <returns>A statuscode</returns>
         [HttpDelete]
         [Route("{id}")]
         public IHttpActionResult DeleteCourseById(int id)
@@ -84,8 +92,12 @@ namespace Assignment2.Controllers
                 return StatusCode(HttpStatusCode.NotFound);
             }
         }
-        /// Returns detailed information about a course.
+
+        /// <summary>
+        /// Returns a detailed information about a course with  a
+        /// given ID.
         /// </summary>
+        /// <param name="id">The ID of the requested course</param>
         /// <returns>A CourseDetailsDTO object</returns>
         [HttpGet]
         [Route("{id}")]
@@ -94,7 +106,6 @@ namespace Assignment2.Controllers
         {
             try
             {
-                // ATH: Er rétt að returna OK?
                 var result = _service.GetCourseById(id);
                 return Content(HttpStatusCode.OK, result);
             }
@@ -128,8 +139,8 @@ namespace Assignment2.Controllers
         /// <summary>
         /// Adds a student to a course with a given ID
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="model"></param>
+        /// <param name="id">The ID of the course</param>
+        /// <param name="model">A model containing the SSN of the student</param>
         /// <returns></returns>
         [HttpPost]
         [Route("{id}/students")]
@@ -141,6 +152,7 @@ namespace Assignment2.Controllers
             {
                 try
                 {
+                    // Add student to the course and return the StudentDTO
                     var result = _service.AddStudentToCourse(id, model);
                     return Content(HttpStatusCode.Created, result);
                 }
