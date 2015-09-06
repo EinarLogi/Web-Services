@@ -10,8 +10,19 @@ namespace API.Services.Entities
     [Table("Persons")]
     class Person
     {
+        /// <summary>
+        /// Database generated unique ID
+        /// </summary>
         public int ID { get; set; }
+
+        /// <summary>
+        /// Example: "0202893109"
+        /// </summary>
         public string SSN { get; set; }
+
+        /// <summary>
+        /// Example: "Sigurður Gunnar Jónsson"
+        /// </summary>
         public string Name { get; set; }
     }
 }
