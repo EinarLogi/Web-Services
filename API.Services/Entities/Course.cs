@@ -27,10 +27,15 @@ namespace API.Services.Entities
         /// </summary>
         public DateTime EndDate { get; set; }
 
-
         /// <summary>
         /// Example: "20153"
         /// </summary>
         public String Semester { get; set; }
+
+        /// <summary>
+        /// Indicates how many students can be enrolled in a given course at any given time.
+        /// Example: 35
+        /// </summary>
+        public int MaxStudents { get; set; }
     }
 }

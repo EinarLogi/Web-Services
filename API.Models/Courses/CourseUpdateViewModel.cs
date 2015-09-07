@@ -23,5 +23,11 @@ namespace API.Models.Courses
         /// </summary>
         [Required]
         public DateTime EndDate { get; set; }
+
+        /// <summary>
+        /// Indicates how many students can be enrolled in a given course at any given time.
+        /// Example: 35
+        /// </summary>
+        public int MaxStudents { get; set; }
     }
 }

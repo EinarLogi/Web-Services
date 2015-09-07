@@ -26,5 +26,11 @@ namespace API.Models
         /// List of students in the course
         /// </summary>
         public List<StudentDTO> Students { get; set; }
+
+        /// <summary>
+        /// Indicates how many students can be enrolled in a given course at any given time.
+        /// Example: 35
+        /// </summary>
+        public int MaxStudents { get; set; }
     }
 }

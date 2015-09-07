@@ -57,7 +57,7 @@ namespace API.Services
         /// Deletes a course from Courses and CourseTemplates.
         /// Carfeul.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The id of the course to be deleted</param>
         public void DeleteCourseById(int id)
         {
             var course = _db.Courses.SingleOrDefault(x  => x.ID == id);
@@ -157,6 +157,11 @@ namespace API.Services
             courseEntity.StartDate = model.StartDate;
             courseEntity.EndDate = model.EndDate;
 
+            if(model.MaxStudents != 0)
+            {
+                courseEntity.MaxStudents = model.MaxStudents;
+            }
+
             _db.SaveChanges();
             // Return
             var courseTemplate = _db.CourseTemplates.SingleOrDefault(x => x.CourseID == courseEntity.CourseIdentifier);
@@ -208,7 +213,8 @@ namespace API.Services
                             select new CourseDetailsDTO
                             {
                                 ID              = c.ID,
-                                Name            = ct.Name
+                                Name            = ct.Name,
+                                MaxStudents     = c.MaxStudents
                             }).SingleOrDefault();
             // Add listOfStudents to the courseObj
             courseObj.Students = listOfStudents;
