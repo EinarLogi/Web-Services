@@ -170,6 +170,35 @@ namespace Assignment2.Controllers
             {
                 return StatusCode(HttpStatusCode.PreconditionFailed);
             }
-        }   
+        }
+
+        /// <summary>
+        /// Adds a student to waiting list of specific course given by ID
+        /// </summary>
+        /// <param name="id">ID of the course</param>
+        /// <param name="model">A model containing the SSN of the student</param>
+        /// <returns>A personDTO of the student</returns>
+        [HttpPost]
+        [Route("{id}/waitinglist")]
+        [ResponseType(typeof(StudentDTO))]
+        public IHttpActionResult AddStudentToWaitingList(int id, AddStudentViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    var result = _service.AddStudentToWaitingList(id, model);
+                    return Content(HttpStatusCode.Created, result);
+                }
+                catch (AppObjectNotFoundException)
+                {
+                    return StatusCode(HttpStatusCode.NotFound);
+                }
+            }
+            else
+            {
+                return StatusCode(HttpStatusCode.PreconditionFailed);
+            }
+        }
     }
 }

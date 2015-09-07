@@ -221,5 +221,45 @@ namespace API.Services
 
             return courseObj;
         }
+
+        /// <summary>
+        /// Adds a student to waiting list of specific course given by ID
+        /// </summary>
+        /// <param name="id">ID of the course</param>
+        /// <param name="model">A model containing the SSN of the student</param>
+        /// <returns>A personDTO of the student</returns>
+        public StudentDTO AddStudentToWaitingList(int id, AddStudentViewModel model)
+        {
+            // Validate
+            var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
+            if (courseEntity == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            //verify that the person exists!
+            var person = _db.Persons.SingleOrDefault(x => x.SSN == model.SSN);
+            if (person == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            var waitingEntity = new CourseWaitingList
+            {
+                CourseID        = id,
+                PersonID        = person.ID
+            };
+
+            _db.CourseWaitingList.Add(waitingEntity);
+            _db.SaveChanges();
+
+            var result = new StudentDTO
+            {
+                SSN     = model.SSN,
+                Name    = person.Name
+            };
+
+            return result;
+        }
     }
 }

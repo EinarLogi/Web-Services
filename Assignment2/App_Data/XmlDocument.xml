@@ -534,5 +534,13 @@
             <param name="model">A model containing the SSN of the student</param>
             <returns></returns>
         </member>
+        <member name="M:Assignment2.Controllers.CoursesController.AddStudentToWaitingList(System.Int32,API.Models.Courses.Students.AddStudentViewModel)">
+            <summary>
+            Adds a student to waiting list of specific course given by ID
+            </summary>
+            <param name="id">ID of the course</param>
+            <param name="model">A model containing the SSN of the student</param>
+            <returns>A personDTO of the student</returns>
+        </member>
     </members>
 </doc>

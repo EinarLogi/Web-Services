@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CourseStudent.cs" />
+    <Compile Include="Entities\CourseWaitingList.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Exceptions\AppObjectNotFoundException.cs" />
     <Compile Include="CoursesServiceProvider.cs" />

@@ -12,5 +12,7 @@ namespace API.Services.Repositories
         public DbSet<Person> Persons { get; set; }
 
         public DbSet<CourseStudent> CourseStudents { get; set; }
+
+        public DbSet<CourseWaitingList> CourseWaitingList { get; set; }
     }
 }

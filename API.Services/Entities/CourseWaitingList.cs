@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Services.Entities
 {
-    [Table("CourseTemplates")]
-    class CourseTemplate
+    class CourseWaitingList
     {
         /// <summary>
         /// Database-generated ID of the record
@@ -16,15 +14,15 @@ namespace API.Services.Entities
         public int ID { get; set; }
 
         /// <summary>
-        /// The ID of the course.
-        /// Example: "T-514-VEFT"
+        /// The database-generated ID of the course.
+        /// Not null
         /// </summary>
-        public string CourseID { get; set; }
+        public int CourseID { get; set; }
 
         /// <summary>
-        /// The name of the course.
-        /// Example: "Vefþjónustur"
+        /// The database-generated ID of the person which is waiting
+        /// in the course. Not null.
         /// </summary>
-        public string Name { get; set; }
+        public int PersonID { get; set; }
     }
 }
