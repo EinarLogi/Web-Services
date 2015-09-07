@@ -188,7 +188,7 @@ namespace API.Services
         /// <returns>A CourseDetailsDTO object</returns>
         public CourseDetailsDTO GetCourseById(int id)
         {
-            // 1. Validate
+            // Validate
             var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
             if (courseEntity == null)
             {
@@ -260,6 +260,37 @@ namespace API.Services
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns a list of active students on the waiting list
+        /// </summary>
+        /// <param name="id">ID of the course</param>
+        /// <returns>Active students on the waiting list.</returns>
+        public CourseWaitingListDTO GetCourseWaitingList(int id)
+        {
+            // Validate
+            var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
+            if (courseEntity == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            var listOfWaitingStudents = (from p in _db.Persons
+                                  join cwl in _db.CourseWaitingList
+                                          on id equals cwl.CourseID
+                                  where p.ID == cwl.PersonID
+                                  select new StudentDTO
+                                  {
+                                      Name = p.Name,
+                                      SSN = p.SSN
+                                  }).ToList();
+
+            var result = new CourseWaitingListDTO();
+            result.WaitingStudents = listOfWaitingStudents;
+
+            return result;
+
         }
     }
 }

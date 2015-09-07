@@ -173,6 +173,27 @@ namespace Assignment2.Controllers
         }
 
         /// <summary>
+        /// Returns a list of active students on the waiting list
+        /// </summary>
+        /// <param name="id">ID of the course</param>
+        /// <returns>Active students on the waiting list.</returns>
+        [HttpGet]
+        [Route("{id}/waitinglist")]
+        [ResponseType(typeof(CourseWaitingListDTO))]
+        public IHttpActionResult GetCourseWaitingList(int id)
+        {
+            try
+            {
+                var result = _service.GetCourseWaitingList(id);
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (AppObjectNotFoundException)
+            {
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+        }
+
+        /// <summary>
         /// Adds a student to waiting list of specific course given by ID
         /// </summary>
         /// <param name="id">ID of the course</param>
