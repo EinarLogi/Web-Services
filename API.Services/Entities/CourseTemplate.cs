@@ -11,12 +11,20 @@ namespace API.Services.Entities
     class CourseTemplate
     {
         /// <summary>
-        /// 
+        /// Database-generated ID of the record
         /// </summary>
         public int ID { get; set; }
 
+        /// <summary>
+        /// The database-generated ID of the course.
+        /// Not null
+        /// </summary>
         public string CourseID { get; set; }
 
+        /// <summary>
+        /// The name of the course.
+        /// Example: "Vefþjónustur"
+        /// </summary>
         public string Name { get; set; }
     }
 }

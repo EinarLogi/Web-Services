@@ -481,6 +481,11 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:Assignment2.Controllers.CoursesController">
+            <summary>
+            The controller for the Course API
+            </summary>
+        </member>
         <member name="M:Assignment2.Controllers.CoursesController.#ctor">
             <summary>
             Constructor that initializes _service.

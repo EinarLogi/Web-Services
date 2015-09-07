@@ -13,7 +13,9 @@ using System.Web.Http.Description;
 
 namespace Assignment2.Controllers
 {
-
+    /// <summary>
+    /// The controller for the Course API
+    /// </summary>
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {

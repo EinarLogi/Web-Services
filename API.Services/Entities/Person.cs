@@ -16,11 +16,13 @@ namespace API.Services.Entities
         public int ID { get; set; }
 
         /// <summary>
+        /// The SSN of the person.
         /// Example: "0202893109"
         /// </summary>
         public string SSN { get; set; }
 
         /// <summary>
+        /// The name of the person.
         /// Example: "Sigurður Gunnar Jónsson"
         /// </summary>
         public string Name { get; set; }

@@ -18,6 +18,7 @@ namespace API.Models
         public int ID { get; set; }
         /// <summary>
         /// Name of the course
+        /// Example: "Vefþjónustur"
         /// </summary>
         public string Name { get; set; }
 
