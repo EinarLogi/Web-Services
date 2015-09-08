@@ -317,6 +317,17 @@ namespace API.Services
                 throw new AppObjectNotFoundException();
             }
 
+            //make sure person is not currently on the waiting list
+            var onWaitingList = (from cwl in _db.CourseWaitingList
+                                 where cwl.CourseID == id
+                                 && person.ID == cwl.PersonID
+                                 select cwl).SingleOrDefault();
+
+            if(onWaitingList != null)
+            {
+                throw new DuplicateEntryException();
+            }
+
             var waitingEntity = new CourseWaitingList
             {
                 CourseID        = id,
@@ -375,7 +386,6 @@ namespace API.Services
 
             //check if student is in course
             var studentInCourse = (from cs in _db.CourseStudents
-                                   //join p in _db.Persons on cs.PersonID equals person.ID
                                    where cs.CourseID == cid
                                    && person.ID == cs.PersonID
                                    select cs).SingleOrDefault();

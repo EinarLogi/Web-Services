@@ -216,12 +216,16 @@ namespace Assignment2.Controllers
         {
             try
             {
-                 _service.GetCourseWaitingList(id);
-                return StatusCode(HttpStatusCode.NoContent);
+                var result = _service.GetCourseWaitingList(id);
+                return Content(HttpStatusCode.OK,result);
             }
             catch (AppObjectNotFoundException)
             {
                 return StatusCode(HttpStatusCode.NotFound);
+            }
+            catch(DuplicateEntryException)
+            {
+                return StatusCode(HttpStatusCode.PreconditionFailed);
             }
         }
 
@@ -241,11 +245,15 @@ namespace Assignment2.Controllers
                 try
                 {
                     var result = _service.AddStudentToWaitingList(id, model);
-                    return Content(HttpStatusCode.Created, result);
+                    return Content(HttpStatusCode.OK, result);
                 }
                 catch (AppObjectNotFoundException)
                 {
                     return StatusCode(HttpStatusCode.NotFound);
+                }
+                catch(DuplicateEntryException)
+                {
+                    return StatusCode(HttpStatusCode.PreconditionFailed);
                 }
             }
             else
