@@ -211,7 +211,7 @@ namespace Assignment2.Controllers
         /// <returns>Active students on the waiting list.</returns>
         [HttpGet]
         [Route("{id}/waitinglist")]
-        [ResponseType(typeof(CourseWaitingListDTO))]
+        [ResponseType(typeof(List<StudentDTO>))]
         public IHttpActionResult GetCourseWaitingList(int id)
         {
             try

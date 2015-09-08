@@ -172,7 +172,7 @@ namespace API.Services
             //check if student already in course
             var studentAlreadyInCourse = (from cs in _db.CourseStudents
                                          where cs.CourseID == id
-                                         && person.ID == id
+                                         && person.ID == cs.PersonID
                                          select cs).SingleOrDefault();
 
             if (studentAlreadyInCourse != null)
@@ -318,6 +318,17 @@ namespace API.Services
                 throw new AppObjectNotFoundException();
             }
 
+            //check if student already in course
+            var studentAlreadyInCourse = (from cs in _db.CourseStudents
+                                          where cs.CourseID == id
+                                          && person.ID == cs.PersonID
+                                          select cs).SingleOrDefault();
+
+            if (studentAlreadyInCourse != null)
+            {
+                throw new DuplicateEntryException();
+            }
+
             //make sure person is not currently on the waiting list
             var onWaitingList = (from cwl in _db.CourseWaitingList
                                  where cwl.CourseID == id
@@ -352,7 +363,7 @@ namespace API.Services
         /// </summary>
         /// <param name="id">ID of the course</param>
         /// <returns>Active students on the waiting list.</returns>
-        public CourseWaitingListDTO GetCourseWaitingList(int id)
+        public List<StudentDTO> GetCourseWaitingList(int id)
         {
             // Validate
             var courseEntity = _db.Courses.SingleOrDefault(x => x.ID == id);
@@ -371,10 +382,10 @@ namespace API.Services
                                       SSN = p.SSN
                                   }).ToList();
 
-            var result = new CourseWaitingListDTO();
-            result.WaitingStudents = listOfWaitingStudents;
+            //var result = new CourseWaitingListDTO();
+            //result.WaitingStudents = listOfWaitingStudents;
 
-            return result;
+            return listOfWaitingStudents;
 
         }
 
@@ -384,6 +395,11 @@ namespace API.Services
             var person = (from p in _db.Persons
                          where p.SSN == ssn
                          select p).SingleOrDefault();
+
+            if(person == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
 
             //check if student is in course
             var studentInCourse = (from cs in _db.CourseStudents
