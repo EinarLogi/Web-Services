@@ -61,12 +61,6 @@ namespace API.Services
         public CourseDTO AddNewCourse(CourseViewModel model)
         {
             //check if course already in database
-            /*var course = _db.Courses.SingleOrDefault(x => x.ID == id);
-
-            if(course != null)
-            {
-                throw new DuplicateEntryException();
-            }*/
           
             //add the course
             var newCourse = new Course
@@ -177,9 +171,9 @@ namespace API.Services
 
             //check if student already in course
             var studentAlreadyInCourse = (from cs in _db.CourseStudents
-                                          join p in _db.Persons on cs.PersonID equals p.ID
-                                          where cs.CourseID == id
-                                          select p).SingleOrDefault();
+                                         join p in _db.Persons on cs.PersonID equals person.ID
+                                         where cs.CourseID == id
+                                         select cs).SingleOrDefault();
 
             if (studentAlreadyInCourse != null)
             {
@@ -370,6 +364,30 @@ namespace API.Services
 
             return result;
 
+        }
+
+        public void RemoveStudentFromCourse(int cid, string ssn)
+        {
+            //find the person
+            var person = (from p in _db.Persons
+                         where p.SSN == ssn
+                         select p).SingleOrDefault();
+
+            //check if student is in course
+            var studentInCourse = (from cs in _db.CourseStudents
+                                   //join p in _db.Persons on cs.PersonID equals person.ID
+                                   where cs.CourseID == cid
+                                   && person.ID == cs.PersonID
+                                   select cs).SingleOrDefault();
+
+            //student not in course
+            if(studentInCourse == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+            _db.CourseStudents.Remove(studentInCourse);
+            _db.SaveChanges();
+  
         }
     }
 }

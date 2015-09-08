@@ -216,8 +216,8 @@ namespace Assignment2.Controllers
         {
             try
             {
-                var result = _service.GetCourseWaitingList(id);
-                return Content(HttpStatusCode.OK, result);
+                 _service.GetCourseWaitingList(id);
+                return StatusCode(HttpStatusCode.NoContent);
             }
             catch (AppObjectNotFoundException)
             {
@@ -251,6 +251,22 @@ namespace Assignment2.Controllers
             else
             {
                 return StatusCode(HttpStatusCode.PreconditionFailed);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{cid}/students/{ssn}")]
+        public IHttpActionResult RemoveStudentFromCourse(int cid, string ssn)
+        {
+            try
+            {
+                _service.RemoveStudentFromCourse(cid, ssn);
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            catch (AppObjectNotFoundException)
+            {
+
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
     }
