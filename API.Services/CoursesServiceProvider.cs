@@ -183,8 +183,9 @@ namespace API.Services
 
             //check if person is on the waitinglist
             var isOnWaitList = (from cwl in _db.CourseWaitingList
-                                join p in _db.Persons on cwl.PersonID equals p.ID
+                                //join p in _db.Persons on cwl.PersonID equals p.ID
                                 where cwl.CourseID == id
+                                && person.ID == cwl.PersonID
                                 select cwl).SingleOrDefault();   
 
             //person is on the waitinglist
