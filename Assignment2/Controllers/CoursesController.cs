@@ -216,8 +216,8 @@ namespace Assignment2.Controllers
         {
             try
             {
-                 _service.GetCourseWaitingList(id);
-                return StatusCode(HttpStatusCode.NoContent);
+                var result =_service.GetCourseWaitingList(id);
+                return Content(HttpStatusCode.OK, result);
             }
             catch (AppObjectNotFoundException)
             {

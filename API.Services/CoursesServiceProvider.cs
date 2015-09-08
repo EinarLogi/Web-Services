@@ -171,8 +171,8 @@ namespace API.Services
 
             //check if student already in course
             var studentAlreadyInCourse = (from cs in _db.CourseStudents
-                                         join p in _db.Persons on cs.PersonID equals person.ID
                                          where cs.CourseID == id
+                                         && person.ID == id
                                          select cs).SingleOrDefault();
 
             if (studentAlreadyInCourse != null)
