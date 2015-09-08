@@ -3,6 +3,7 @@ using API.Models.Courses;
 using API.Models.Courses.Students;
 using API.Services;
 using API.Services.Exception;
+using API.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,29 @@ namespace Assignment2.Controllers
         {
             var result = _service.GetCoursesBySemester(semester);
             return Content(HttpStatusCode.OK, result);
+        }
+
+        /// <summary>
+        /// Adds a new course to the database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("")]
+        [ResponseType(typeof(CourseDTO))]
+        public IHttpActionResult AddNewCourse(CourseViewModel model)
+        {
+            try
+            {
+                var result = _service.AddNewCourse(model);
+                var location = Url.Link("GetCourseById", new { id = result.ID });
+                return Created(location, result);
+            }
+            catch (DuplicateEntryException)
+            {
+
+                return StatusCode(HttpStatusCode.BadRequest);
+            };
         }
 
 
@@ -104,7 +128,7 @@ namespace Assignment2.Controllers
         /// <param name="id">The ID of the requested course</param>
         /// <returns>A CourseDetailsDTO object</returns>
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id}", Name ="GetCourseById")]
         [ResponseType(typeof(CourseDetailsDTO))]
         public IHttpActionResult GetCourseById(int id)
         {
@@ -163,6 +187,14 @@ namespace Assignment2.Controllers
                 catch(AppObjectNotFoundException)
                 {
                     return StatusCode(HttpStatusCode.NotFound);
+                }
+                catch (MaxStudentException)
+                {
+                    return StatusCode(HttpStatusCode.PreconditionFailed);
+                }
+                catch (DuplicateEntryException)
+                {
+                    return StatusCode(HttpStatusCode.PreconditionFailed);
                 }
                 
             }

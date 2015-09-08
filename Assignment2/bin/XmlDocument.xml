@@ -497,6 +497,13 @@
             </summary>
             <returns>A list of courses</returns>
         </member>
+        <member name="M:Assignment2.Controllers.CoursesController.AddNewCourse(API.Models.CourseViewModel)">
+            <summary>
+            Adds a new course to the database
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:Assignment2.Controllers.CoursesController.UpdateCourse(System.Int32,API.Models.Courses.CourseUpdateViewModel)">
             <summary>
             Update information of a course with a given id

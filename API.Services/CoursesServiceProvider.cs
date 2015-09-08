@@ -9,6 +9,7 @@ using API.Models.Courses.Students;
 using API.Services.Exception;
 using API.Services.Entities;
 using API.Models.Courses;
+using API.Services.Exceptions;
 
 namespace API.Services
 {
@@ -40,7 +41,7 @@ namespace API.Services
 
             var result = (from c in _db.Courses
                           join ct in _db.CourseTemplates
-                                  on c.CourseIdentifier equals ct.CourseID
+                                  on c.TemplateID equals ct.TemplateID
                           where c.Semester == semester
                           select new CourseDTO
                           {
@@ -49,6 +50,50 @@ namespace API.Services
                             Name            = ct.Name,
                             StudentCount    = 0 
                            }).ToList();
+
+            return result;
+        }
+        /// <summary>
+        /// adds a new instance of a course to the database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public CourseDTO AddNewCourse(CourseViewModel model)
+        {
+            //check if course already in database
+            /*var course = _db.Courses.SingleOrDefault(x => x.ID == id);
+
+            if(course != null)
+            {
+                throw new DuplicateEntryException();
+            }*/
+          
+            //add the course
+            var newCourse = new Course
+            {
+
+                TemplateID = model.TemplateID,
+                Semester = model.Semester,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                MaxStudents = model.MaxStudents
+            };
+
+            _db.Courses.Add(newCourse);
+            _db.SaveChanges();
+
+            //find the Name of the course
+            var courseTemplate = (from ct in _db.CourseTemplates
+                              where ct.TemplateID == model.TemplateID
+                              select ct).SingleOrDefault();
+
+            var result = new CourseDTO
+            {
+                ID = newCourse.ID,
+                Name = courseTemplate.Name,
+                StartDate = newCourse.StartDate,
+                StudentCount = 0
+            };
 
             return result;
         }
@@ -121,7 +166,41 @@ namespace API.Services
                 throw new AppObjectNotFoundException();
             }
 
-            //2. Actually add the record
+            //count students in the course
+            var countStudents = _db.CourseStudents.Count(x => x.CourseID == course.ID);
+
+            //stop adding new students if course is full
+            if(countStudents >= course.MaxStudents)
+            {
+                throw new MaxStudentException();
+            }
+
+            //check if student already in course
+            var studentAlreadyInCourse = (from cs in _db.CourseStudents
+                                          join p in _db.Persons on cs.PersonID equals p.ID
+                                          where cs.CourseID == id
+                                          select p).SingleOrDefault();
+
+            if (studentAlreadyInCourse != null)
+            {
+                throw new DuplicateEntryException();
+            }
+
+
+            //check if person is on the waitinglist
+            var isOnWaitList = (from cwl in _db.CourseWaitingList
+                                join p in _db.Persons on cwl.PersonID equals p.ID
+                                where cwl.CourseID == id
+                                select cwl).SingleOrDefault();   
+
+            //person is on the waitinglist
+            if(isOnWaitList != null)
+            {
+                _db.CourseWaitingList.Remove(isOnWaitList);
+                _db.SaveChanges();
+            }
+
+            //Actually add the record
             var courseStudent = new CourseStudent
             {
                 PersonID = person.ID,
@@ -164,7 +243,7 @@ namespace API.Services
 
             _db.SaveChanges();
             // Return
-            var courseTemplate = _db.CourseTemplates.SingleOrDefault(x => x.CourseID == courseEntity.CourseIdentifier);
+            var courseTemplate = _db.CourseTemplates.SingleOrDefault(x => x.TemplateID == courseEntity.TemplateID);
             if (courseTemplate == null)
             {
                 //return 500 internal server error
@@ -208,7 +287,7 @@ namespace API.Services
 
             var courseObj = (from c in _db.Courses
                             join ct in _db.CourseTemplates
-                                  on c.CourseIdentifier equals ct.CourseID
+                                  on c.TemplateID equals ct.TemplateID
                             where c.ID == id
                             select new CourseDetailsDTO
                             {

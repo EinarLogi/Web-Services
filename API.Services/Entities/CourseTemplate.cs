@@ -19,7 +19,7 @@ namespace API.Services.Entities
         /// The ID of the course.
         /// Example: "T-514-VEFT"
         /// </summary>
-        public string CourseID { get; set; }
+        public string TemplateID { get; set; }
 
         /// <summary>
         /// The name of the course.
