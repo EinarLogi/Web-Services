@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using API.Models;
 using API.Services.Repositories;
 using API.Models.Courses.Students;
@@ -388,7 +386,11 @@ namespace API.Services
             return listOfWaitingStudents;
 
         }
-
+        /// <summary>
+        /// Removes a student from the Course
+        /// </summary>
+        /// <param name="cid">course id</param>
+        /// <param name="ssn">ssn of student</param>
         public void RemoveStudentFromCourse(int cid, string ssn)
         {
             //find the person

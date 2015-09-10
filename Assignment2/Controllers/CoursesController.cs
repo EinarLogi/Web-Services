@@ -4,9 +4,7 @@ using API.Models.Courses.Students;
 using API.Services;
 using API.Services.Exception;
 using API.Services.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -261,7 +259,12 @@ namespace Assignment2.Controllers
                 return StatusCode(HttpStatusCode.PreconditionFailed);
             }
         }
-
+        /// <summary>
+        /// Removes student from a course given by cid
+        /// </summary>
+        /// <param name="cid">id of the course</param>
+        /// <param name="ssn">ssn of the student</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{cid}/students/{ssn}")]
         public IHttpActionResult RemoveStudentFromCourse(int cid, string ssn)

@@ -46,7 +46,6 @@
     <Compile Include="CourseDetailsDTO.cs" />
     <Compile Include="CourseDTO.cs" />
     <Compile Include="CourseViewModel.cs" />
-    <Compile Include="CourseWaitingListDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudentDTO.cs" />
   </ItemGroup>

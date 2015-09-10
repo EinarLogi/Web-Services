@@ -556,5 +556,13 @@
             <param name="model">A model containing the SSN of the student</param>
             <returns>A personDTO of the student</returns>
         </member>
+        <member name="M:Assignment2.Controllers.CoursesController.RemoveStudentFromCourse(System.Int32,System.String)">
+            <summary>
+            Removes student from a course given by cid
+            </summary>
+            <param name="cid">id of the course</param>
+            <param name="ssn">ssn of the student</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
