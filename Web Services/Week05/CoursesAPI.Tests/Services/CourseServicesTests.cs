@@ -128,7 +128,21 @@ namespace CoursesAPI.Tests.Services
 
 		// TODO!!! you should write more unit tests here!!!
         [TestMethod]
-        public void GetCoursesBySemester_ReturnsListOfCoursesOnTheGivenSemester()
+        public void GetCoursesBySemester_Returns20153CoursesWhenNoArgumentIsGiven()
+        {
+            //Arrange:
+            var service = _service;
+            //Act:
+            var result = service.GetCourseInstancesBySemester("");
+            //Assert:
+            Assert.AreEqual(1, result.Count, "The number of courses are incorrect");
+
+            var courseDTO = result[0];
+            Assert.AreEqual(COURSEID_VEFT_20153, courseDTO.CourseInstanceID);
+        }
+
+        [TestMethod]
+        public void GetCoursesBySemester_ReturnsListOfCoursesWithSemesterEqualto20153()
         {
             //Arrange:
             var service = _service;
