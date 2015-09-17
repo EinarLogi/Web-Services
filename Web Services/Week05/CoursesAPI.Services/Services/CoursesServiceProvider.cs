@@ -78,9 +78,9 @@ namespace CoursesAPI.Services.Services
             // Create TeacerRegistration entity
             var teacherRegistration = new TeacherRegistration
             {
-                SSN = person.SSN,
-                CourseInstanceID = course.ID,
-                Type = model.Type
+                SSN                 = person.SSN,
+                CourseInstanceID    = course.ID,
+                Type                = model.Type
             };
 
             // Add to database
@@ -110,7 +110,21 @@ namespace CoursesAPI.Services.Services
 				semester = "20153";
 			}
 
-			var courses = (from c in _courseInstances.All()
+            // Check if the course has a main teacher
+            var mainTeacher = "";
+            var teacherRegistrationsObj = (from tr in _teacherRegistrations.All()
+                              where tr.Type == TeacherType.MainTeacher
+                              select tr).SingleOrDefault();
+            if (mainTeacher != null)
+            {
+                // Get the name of the teacher
+                var personObj = (from p in _persons.All()
+                                where p.SSN == teacherRegistrationsObj.SSN
+                                select p).SingleOrDefault();
+                mainTeacher = personObj.Name;
+            }
+
+            var courses = (from c in _courseInstances.All()
 				join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
 				where c.SemesterID == semester
 				select new CourseInstanceDTO
@@ -118,7 +132,7 @@ namespace CoursesAPI.Services.Services
 					Name               = ct.Name,
 					TemplateID         = ct.CourseID,
 					CourseInstanceID   = c.ID,
-					MainTeacher        = "" // Hint: it should not always return an empty string!
+					MainTeacher        = mainTeacher // Hint: it should not always return an empty string!
 				}).ToList();
 
 			return courses;
