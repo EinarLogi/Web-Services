@@ -164,23 +164,23 @@ namespace CoursesAPI.Tests.Services
 			// Assert:
 
 			// Check that the dto object is correctly populated:
-			Assert.AreEqual(SSN_GUNNA, dto.SSN);
-			Assert.AreEqual(NAME_GUNNA, dto.Name);
+			Assert.AreEqual(SSN_GUNNA, dto.SSN, "Inconsistent dto.SSN");
+			Assert.AreEqual(NAME_GUNNA, dto.Name, "Inconsistent dto.name");
 
 			// Ensure that a new entity object has been created:
 			var currentCount = _teacherRegistrations.Count;
-			Assert.AreEqual(prevCount + 1, currentCount);
+			Assert.AreEqual(prevCount + 1, currentCount, "Object has not been created");
 
 			// Get access to the entity object and assert that
 			// the properties have been set:
 			var newEntity = _teacherRegistrations.Last();
-			Assert.AreEqual(COURSEID_VEFT_20163, newEntity.CourseInstanceID);
-			Assert.AreEqual(SSN_GUNNA, newEntity.SSN);
-			Assert.AreEqual(TeacherType.MainTeacher, newEntity.Type);
+			Assert.AreEqual(COURSEID_VEFT_20163, newEntity.CourseInstanceID, "Inconsistent newEntity.CourseInstanceID");
+			Assert.AreEqual(SSN_GUNNA, newEntity.SSN, "Inconsistent newEntity.SSN");
+			Assert.AreEqual(TeacherType.MainTeacher, newEntity.Type, "Inconsistent newEntity.Type");
 
 			// Ensure that the Unit Of Work object has been instructed
 			// to save the new entity object:
-			Assert.IsTrue(_mockUnitOfWork.GetSaveCallCount() > 0);
+			Assert.IsTrue(_mockUnitOfWork.GetSaveCallCount() > 0, "GetSaveCallCount() <= 0");
 		}
 
 		[TestMethod]
