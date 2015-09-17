@@ -34,8 +34,66 @@ namespace CoursesAPI.Services.Services
 		/// <returns>Should return basic information about the person.</returns>
 		public PersonDTO AddTeacherToCourse(int courseInstanceID, AddTeacherViewModel model)
 		{
-			// TODO: implement this logic!
-			return null;
+            var course = (from c in _courseInstances.All()
+                          where c.ID == courseInstanceID
+                          select c).SingleOrDefault();
+            // Make sure that the course exists
+            if (course == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            var person = (from p in _persons.All()
+                          where p.SSN == model.SSN
+                          select p).SingleOrDefault();
+            // Make sure that the person exists
+            if (person == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+            if(model.Type == TeacherType.MainTeacher)
+            {
+                // Check if the course aldready has a main teacher
+                var teacherReg = (from tr in _teacherRegistrations.All()
+                                  where tr.CourseInstanceID == course.ID
+                                        && tr.Type == TeacherType.MainTeacher
+                                  select tr).SingleOrDefault();
+                if(teacherReg != null)
+                {
+                    throw new AppValidationException("COURSE_ALREADY_HAS_A_MAIN_TEACHER");
+                }
+            }
+
+            // Check if the person is already a teacher in the course
+            var alreadyTeacher = (from tr in _teacherRegistrations.All()
+                                  where tr.CourseInstanceID == course.ID
+                                        && tr.SSN == person.SSN
+                                  select tr).SingleOrDefault();
+            if(alreadyTeacher != null)
+            {
+                throw new AppValidationException("PERSON_ALREADY_REGISTERED_TEACHER_IN_COURSE");
+            }
+
+            // Create TeacerRegistration entity
+            var teacherRegistration = new TeacherRegistration
+            {
+                SSN = person.SSN,
+                CourseInstanceID = course.ID,
+                Type = model.Type
+            };
+
+            // Add to database
+            _teacherRegistrations.Add(teacherRegistration);
+            _uow.Save();
+
+            var result = new PersonDTO
+            {
+                SSN = model.SSN,
+                Name = person.Name
+            };
+
+            return result;
 		}
 
 		/// <summary>
