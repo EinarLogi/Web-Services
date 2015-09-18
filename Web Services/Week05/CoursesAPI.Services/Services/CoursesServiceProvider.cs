@@ -110,32 +110,49 @@ namespace CoursesAPI.Services.Services
 				semester = "20153";
 			}
 
-            // Check if the course has a main teacher
-            var mainTeacher = "";
-            var teacherRegistrationsObj = (from tr in _teacherRegistrations.All()
-                              where tr.Type == TeacherType.MainTeacher
-                              select tr).SingleOrDefault();
-            if (mainTeacher != null)
+            var coursesLeftQuery = (from c in _courseInstances.All()
+                                   join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                                   where c.SemesterID == semester
+                                   select new
+                                   {
+                                       ID = c.ID,
+                                       CourseID = c.CourseID,
+                                       SemesterID = c.SemesterID,
+                                       Name = ct.Name
+                                    }).ToList();
+
+            var teachersRightQuery = (from tr in _teacherRegistrations.All()
+                                      join p in _persons.All() on tr.SSN equals p.SSN
+                                      where tr.Type == TeacherType.MainTeacher
+                                      select new
+                                      {
+                                          CourseInstanceID = tr.CourseInstanceID,
+                                          SSN = tr.SSN,
+                                          Type = tr.Type,
+                                          Name = p.Name
+                                      }).ToList();
+
+            List<CourseInstanceDTO> result = new List<CourseInstanceDTO>();
+            foreach(var c in coursesLeftQuery)
             {
-                // Get the name of the teacher
-                var personObj = (from p in _persons.All()
-                                where p.SSN == teacherRegistrationsObj.SSN
-                                select p).SingleOrDefault();
-                mainTeacher = personObj.Name;
+                var dto = new CourseInstanceDTO
+                {
+                    Name = c.Name,
+                    TemplateID = c.CourseID,
+                    CourseInstanceID = c.ID,
+                    MainTeacher = ""
+                };
+
+                foreach (var tr in teachersRightQuery)
+                {
+                   if(c.ID == tr.CourseInstanceID && tr.Type == TeacherType.MainTeacher)
+                   {
+                        dto.MainTeacher = tr.Name;
+                   }
+                }
+                result.Add(dto);
             }
-
-            var courses = (from c in _courseInstances.All()
-				join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
-				where c.SemesterID == semester
-				select new CourseInstanceDTO
-				{
-					Name               = ct.Name,
-					TemplateID         = ct.CourseID,
-					CourseInstanceID   = c.ID,
-					MainTeacher        = mainTeacher // Hint: it should not always return an empty string!
-				}).ToList();
-
-			return courses;
+            return result;
 		}
 	}
 }

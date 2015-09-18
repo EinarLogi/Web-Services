@@ -137,8 +137,11 @@ namespace CoursesAPI.Tests.Services
             //Assert:
             Assert.AreEqual(1, result.Count, "The number of courses are incorrect");
 
-            var courseDTO = result[0];
-            Assert.AreEqual(COURSEID_VEFT_20153, courseDTO.CourseInstanceID);
+            var courseInstanceDTO = result[0];
+            Assert.AreEqual(COURSEID_VEFT_20153, courseInstanceDTO.CourseInstanceID);
+
+            Assert.AreEqual("Daníel B. Sigurgeirsson", courseInstanceDTO.MainTeacher, "Dabs should teach this course");
+            
         }
 
         [TestMethod]
@@ -152,15 +155,29 @@ namespace CoursesAPI.Tests.Services
             Assert.AreEqual(1, result.Count, "The number of courses is incorrect");
         }
 
-		#endregion
+        [TestMethod]
+        public void GetCoursesBySemester_ReturnsListOfCoursesWithSemesterEqualto20163()
+        {
+            //Arrange:
+            var service = _service;
+            //Act:
+            var result = service.GetCourseInstancesBySemester("20163");
+            //Assert:
+            Assert.AreEqual(1, result.Count, "The number of courses is incorrect");
 
-		#region AddTeacher
+            var courseInstanceDTO = result[0];
+            Assert.AreEqual("", courseInstanceDTO.MainTeacher, "No main teacher should be teaching this course");
+        }
 
-		/// <summary>
-		/// Adds a main teacher to a course which doesn't have a
-		/// main teacher defined already (see test data defined above).
-		/// </summary>
-		[TestMethod]
+        #endregion
+
+        #region AddTeacher
+
+        /// <summary>
+        /// Adds a main teacher to a course which doesn't have a
+        /// main teacher defined already (see test data defined above).
+        /// </summary>
+        [TestMethod]
 		public void AddTeacher_WithValidTeacherAndCourse()
 		{
 			// Arrange:
