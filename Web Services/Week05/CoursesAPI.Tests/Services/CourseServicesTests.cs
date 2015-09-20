@@ -19,7 +19,7 @@ namespace CoursesAPI.Tests.Services
 
 		private const string SSN_DABS    = "1203735289";
 		private const string SSN_GUNNA   = "1234567890";
-        private const string SSN_HRAFN = "9876543210";
+        private const string SSN_HRAFN   = "8765432901";
 		private const string INVALID_SSN = "9876543210";
 
 		private const string NAME_GUNNA  = "Guðrún Guðmundsdóttir";
