@@ -22,3 +22,15 @@ C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.T
 C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.csprojResolveAssemblyReference.cache
 C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.dll
 C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Tests.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Tests.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Models.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Services.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\EntityFramework.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Models.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\CoursesAPI.Services.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\bin\Debug\EntityFramework.xml
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.csprojResolveAssemblyReference.cache
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week05\CoursesAPI.Tests\obj\Debug\CoursesAPI.Tests.pdb

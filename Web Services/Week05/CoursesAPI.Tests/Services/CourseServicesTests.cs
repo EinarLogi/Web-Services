@@ -19,6 +19,7 @@ namespace CoursesAPI.Tests.Services
 
 		private const string SSN_DABS    = "1203735289";
 		private const string SSN_GUNNA   = "1234567890";
+        private const string SSN_HRAFN = "9876543210";
 		private const string INVALID_SSN = "9876543210";
 
 		private const string NAME_GUNNA  = "Guðrún Guðmundsdóttir";
@@ -26,6 +27,7 @@ namespace CoursesAPI.Tests.Services
 		private const int COURSEID_VEFT_20153 = 1337;
 		private const int COURSEID_VEFT_20163 = 1338;
 		private const int INVALID_COURSEID    = 9999;
+        private const int COURSEID_PROG_20163 = 1339;
 
 		[TestInitialize]
 		public void Setup()
@@ -50,7 +52,14 @@ namespace CoursesAPI.Tests.Services
 					Name  = NAME_GUNNA,
 					SSN   = SSN_GUNNA,
 					Email = "gunna@ru.is"
-				}
+				},
+                new Person
+                {
+                    ID      = 3,
+                    Name    = "Hrafn Loftsson",
+                    SSN     = SSN_HRAFN,
+                    Email   = "hrafn@krummi.is"
+                }
 			};
 			#endregion
 
@@ -63,25 +72,37 @@ namespace CoursesAPI.Tests.Services
 					CourseID    = "T-514-VEFT",
 					Description = "Í þessum áfanga verður fjallað um vefþj...",
 					Name        = "Vefþjónustur"
-				}
-			};
-			#endregion
-
-			#region Courses
-			var courses = new List<CourseInstance>
-			{
-				new CourseInstance
-				{
-					ID         = COURSEID_VEFT_20153,
-					CourseID   = "T-514-VEFT",
-					SemesterID = "20153"
 				},
-				new CourseInstance
-				{
-					ID         = COURSEID_VEFT_20163,
-					CourseID   = "T-514-VEFT",
-					SemesterID = "20163"
-				}
+                new CourseTemplate
+                {
+                    CourseID    = "T-111-PROG",
+                    Description = "Fyrstu skref í forritun...",
+                    Name        = "Forritun"
+                }
+			};
+            #endregion
+
+            #region Courses
+            var courses = new List<CourseInstance>
+            {
+                new CourseInstance
+                {
+                    ID         = COURSEID_VEFT_20153,
+                    CourseID   = "T-514-VEFT",
+                    SemesterID = "20153"
+                },
+                new CourseInstance
+                {
+                    ID         = COURSEID_VEFT_20163,
+                    CourseID   = "T-514-VEFT",
+                    SemesterID = "20163"
+                },
+                new CourseInstance
+                {
+                    ID = COURSEID_PROG_20163,
+                    CourseID = "T-111-PROG",
+                    SemesterID = "20163"
+                }
 			};
 			#endregion
 
@@ -94,7 +115,14 @@ namespace CoursesAPI.Tests.Services
 					CourseInstanceID = COURSEID_VEFT_20153,
 					SSN              = SSN_DABS,
 					Type             = TeacherType.MainTeacher
-				}
+				},
+                new TeacherRegistration
+                {
+                    ID               = 102,
+                    CourseInstanceID = COURSEID_PROG_20163,
+                    SSN              = SSN_HRAFN,
+                    Type             = TeacherType.MainTeacher
+                }
 			};
 			#endregion
 
@@ -111,7 +139,8 @@ namespace CoursesAPI.Tests.Services
 
 		#region GetCoursesBySemester
 		/// <summary>
-		/// TODO: implement this test, and several others!
+		/// Unit test for course that doesn't yet have a registered semester.
+        /// Should return empty list
 		/// </summary>
 		[TestMethod]
 		public void GetCoursesBySemester_ReturnsEmptyListWhenNoDataDefined()
@@ -126,47 +155,91 @@ namespace CoursesAPI.Tests.Services
             Assert.AreEqual(0,result.Count, "The number of courses are incorrect");
 		}
 
-		// TODO!!! you should write more unit tests here!!!
+		/// <summary>
+        /// Tests when no argument is given.
+        /// function should return courses for 20153 when no argument is given.
+        /// </summary>
         [TestMethod]
         public void GetCoursesBySemester_Returns20153CoursesWhenNoArgumentIsGiven()
         {
             //Arrange:
             var service = _service;
+
             //Act:
             var result = service.GetCourseInstancesBySemester("");
+
             //Assert:
             Assert.AreEqual(1, result.Count, "The number of courses are incorrect");
 
             var courseInstanceDTO = result[0];
+
+            //check if DTO id is identical to the id of the returned object
             Assert.AreEqual(COURSEID_VEFT_20153, courseInstanceDTO.CourseInstanceID);
 
+            //check if correct main teacher is registered
             Assert.AreEqual("Daníel B. Sigurgeirsson", courseInstanceDTO.MainTeacher, "Dabs should teach this course");
             
         }
+        /// <summary>
+        /// Tests input which doesn't translate to a semester.
+        /// Should return empty list.
+        /// </summary>
+        [TestMethod]
+        public void GetCoursesOnIlligalInput_ReturnsEmptyList()
+        {
+            //Arrange:
+            var service = _service;
 
+            //Act:
+            var result = service.GetCourseInstancesBySemester("abc");
+
+            // Assert:
+
+            //no course should be returned.
+            Assert.AreEqual(0, result.Count, "the number of courses is incorrect");
+        }
+        /// <summary>
+        /// Tests for input 20153
+        /// </summary>
         [TestMethod]
         public void GetCoursesBySemester_ReturnsListOfCoursesWithSemesterEqualto20153()
         {
             //Arrange:
             var service = _service;
+
             //Act:
             var result = service.GetCourseInstancesBySemester("20153");
+
             //Assert:
+       
+            //check if one course is returned
             Assert.AreEqual(1, result.Count, "The number of courses is incorrect");
         }
 
+        /// <summary>
+        /// Gets courses from semester 20163
+        /// </summary>
         [TestMethod]
         public void GetCoursesBySemester_ReturnsListOfCoursesWithSemesterEqualto20163()
         {
             //Arrange:
             var service = _service;
+
             //Act:
             var result = service.GetCourseInstancesBySemester("20163");
-            //Assert:
-            Assert.AreEqual(1, result.Count, "The number of courses is incorrect");
 
+            //Assert:
+
+            //2 courses should be registered for 20163
+            Assert.AreEqual(2, result.Count, "The number of courses is incorrect");
+
+            //make sure no main teacher is registered for vefþjónustur 20163
             var courseInstanceDTO = result[0];
             Assert.AreEqual("", courseInstanceDTO.MainTeacher, "No main teacher should be teaching this course");
+
+            //make sure main teacher is registered for forritun 20163
+            var secondCourseInstanceDTO = result[1];
+            Assert.AreEqual("Hrafn Loftsson", secondCourseInstanceDTO.MainTeacher, "Hrafn Loftsson should be the main teacher");
         }
 
         #endregion
