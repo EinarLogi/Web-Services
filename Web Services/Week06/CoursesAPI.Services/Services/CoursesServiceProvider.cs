@@ -49,28 +49,44 @@ namespace CoursesAPI.Services.Services
         /// modify it, such that it will correctly return the name of the main
         /// teacher of each course.
         /// </summary>
+        /// <param name="language"></param>
         /// <param name="semester"></param>
         /// <param name="page">1-based index of the requested page.</param>
         /// <returns></returns>
-        public List<CourseInstanceDTO> GetCourseInstancesBySemester(string semester = null, int page = 1, string language)
+        public List<CourseInstanceDTO> GetCourseInstancesBySemester(string language, string semester = null, int page = 1)
 		{
 			if (string.IsNullOrEmpty(semester))
 			{
 				semester = "20153";
 			}
-
-			var courses = (from c in _courseInstances.All()
-				join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
-				where c.SemesterID == semester
-				select new CourseInstanceDTO
-				{
-					Name               = ct.Name, // TODO: select the name based on the language requested (if any)
-					TemplateID         = ct.CourseID,
-					CourseInstanceID   = c.ID,
-					MainTeacher        = "" // Hint: it should not always return an empty string!
-				}).ToList();
-
-			return courses;
+            if (language == "is")
+            {
+                var courses = (from c in _courseInstances.All()
+                               join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                               where c.SemesterID == semester
+                               select new CourseInstanceDTO
+                               {
+                                   Name = ct.Name, // TODO: select the name based on the language requested (if any)
+                                   TemplateID = ct.CourseID,
+                                   CourseInstanceID = c.ID,
+                                   MainTeacher = ""
+                               }).ToList();
+                return courses;
+            }
+            else
+            {
+                var courses = (from c in _courseInstances.All()
+                               join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                               where c.SemesterID == semester
+                               select new CourseInstanceDTO
+                               {
+                                   Name = ct.NameEN, // TODO: select the name based on the language requested (if any)
+                                   TemplateID = ct.CourseID,
+                                   CourseInstanceID = c.ID,
+                                   MainTeacher = ""
+                               }).ToList();
+                return courses;
+            }
 		}
 	}
 }

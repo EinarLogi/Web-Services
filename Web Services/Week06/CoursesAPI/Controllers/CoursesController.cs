@@ -40,7 +40,7 @@ namespace CoursesAPI.Controllers
                 //return Request.CreateResponse(HttpStatusCode.BadRequest, error);
             }
             //return Ok(_service.GetCourseInstancesBySemester(semester, page));
-            var result = _service.GetCourseInstancesBySemester(semester, page, language);
+            var result = _service.GetCourseInstancesBySemester(language, semester, page);
             return Content(HttpStatusCode.OK, result);
         }
 
