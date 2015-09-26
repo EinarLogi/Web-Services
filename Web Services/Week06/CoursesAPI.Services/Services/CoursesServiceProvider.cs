@@ -44,15 +44,15 @@ namespace CoursesAPI.Services.Services
 			return null;
 		}
 
-		/// <summary>
-		/// You should write tests for this function. You will also need to
-		/// modify it, such that it will correctly return the name of the main
-		/// teacher of each course.
-		/// </summary>
-		/// <param name="semester"></param>
-		/// <param name="page">1-based index of the requested page.</param>
-		/// <returns></returns>
-		public List<CourseInstanceDTO> GetCourseInstancesBySemester(string semester = null, int page = 1)
+        /// <summary>
+        /// You should write tests for this function. You will also need to
+        /// modify it, such that it will correctly return the name of the main
+        /// teacher of each course.
+        /// </summary>
+        /// <param name="semester"></param>
+        /// <param name="page">1-based index of the requested page.</param>
+        /// <returns></returns>
+        public List<CourseInstanceDTO> GetCourseInstancesBySemester(string semester = null, int page = 1, string language)
 		{
 			if (string.IsNullOrEmpty(semester))
 			{
