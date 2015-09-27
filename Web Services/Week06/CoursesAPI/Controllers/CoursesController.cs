@@ -18,28 +18,19 @@ namespace CoursesAPI.Controllers
             _service = new CoursesServiceProvider(new UnitOfWork<AppDataContext>());
         }
 
-        /*[HttpGet]
-		[AllowAnonymous]
-		public IHttpActionResult GetCoursesBySemester(string semester = null, int page = 1)
-		{
-            // TODO: figure out the requested language (if any!)
-            // and pass it to the service provider!
-            return Ok(_service.GetCourseInstancesBySemester(semester, page));
-		}*/
-
+        /// <summary>
+        /// Returns a page of courses for a requested page number
+        /// </summary>
+        /// <param name="semester">The courses semester</param>
+        /// <param name="page">The requested page</param>
+        /// <returns>An envelope with info and list of courses</returns>
         [HttpGet]
         [AllowAnonymous]
         public IHttpActionResult GetCoursesBySemester(string semester = null, int page = 1)
         {
+            // Get the language from the Accept-Header
             var language = Request.Headers.AcceptLanguage.ToString();
-            // TODO: figure out the requested language (if any!)
-            // and pass it to the service provider!
-            if (ModelState.IsValid)
-            {
-                //HttpError error = GetErrors(ModelState, true);
-                //return Request.CreateResponse(HttpStatusCode.BadRequest, error);
-            }
-            //return Ok(_service.GetCourseInstancesBySemester(semester, page));
+            
             var result = _service.GetCourseInstancesBySemester(language, semester, page);
             return Content(HttpStatusCode.OK, result);
         }

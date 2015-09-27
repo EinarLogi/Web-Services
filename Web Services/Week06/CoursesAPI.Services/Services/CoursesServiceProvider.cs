@@ -4,6 +4,7 @@ using CoursesAPI.Models;
 using CoursesAPI.Services.DataAccess;
 using CoursesAPI.Services.Exceptions;
 using CoursesAPI.Services.Models.Entities;
+using System;
 
 namespace CoursesAPI.Services.Services
 {
@@ -53,40 +54,70 @@ namespace CoursesAPI.Services.Services
         /// <param name="semester"></param>
         /// <param name="page">1-based index of the requested page.</param>
         /// <returns></returns>
-        public List<CourseInstanceDTO> GetCourseInstancesBySemester(string language, string semester = null, int page = 1)
+        public Envelope<List<CourseInstanceDTO>> GetCourseInstancesBySemester(string language, string semester = null, int page = 1)
 		{
-			if (string.IsNullOrEmpty(semester))
+            const int PAGE_SIZE = 10;
+            List<CourseInstanceDTO> courses;
+
+            if (string.IsNullOrEmpty(semester))
 			{
 				semester = "20153";
-			}
+			} 
+
+            // Get the list of courses for the page with name in accepted language
             if (language == "is")
             {
-                var courses = (from c in _courseInstances.All()
+                courses = (from c in _courseInstances.All()
                                join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                               orderby c.ID
                                where c.SemesterID == semester
                                select new CourseInstanceDTO
                                {
-                                   Name = ct.Name, // TODO: select the name based on the language requested (if any)
-                                   TemplateID = ct.CourseID,
+                                   Name             = ct.Name, // Icelandic
+                                   TemplateID       = ct.CourseID,
                                    CourseInstanceID = c.ID,
-                                   MainTeacher = ""
-                               }).ToList();
-                return courses;
+                                   MainTeacher      = ""
+                               }).Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
             }
             else
             {
-                var courses = (from c in _courseInstances.All()
+                courses = (from c in _courseInstances.All()
                                join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                               orderby c.ID
                                where c.SemesterID == semester
                                select new CourseInstanceDTO
                                {
-                                   Name = ct.NameEN, // TODO: select the name based on the language requested (if any)
-                                   TemplateID = ct.CourseID,
+                                   Name             = ct.NameEN, // English
+                                   TemplateID       = ct.CourseID,
                                    CourseInstanceID = c.ID,
-                                   MainTeacher = ""
-                               }).ToList();
-                return courses;
+                                   MainTeacher      = ""
+                               }).Skip((page - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
             }
+
+            // Get the count of all courses on the given semester
+            var ciCount = (from c in _courseInstances.All()
+                                        join ct in _courseTemplates.All() on c.CourseID equals ct.CourseID
+                                        where c.SemesterID == semester
+                                        select c).Count();
+            // Calculate the page count
+            var pageCount = (int)Math.Ceiling((double)ciCount / PAGE_SIZE);
+
+            // Create the envelope with the page info and the list of courses
+            var paging = new PagingInfo
+            {
+                PageCount = pageCount,
+                PageSize = PAGE_SIZE,
+                PageNumber = page,
+                TotalNumberOfItems = courses.Count
+            };
+
+            var envelope = new Envelope<List<CourseInstanceDTO>>
+            {
+                Items = courses,
+                Paging = paging
+            };
+            
+            return envelope;
 		}
 	}
 }

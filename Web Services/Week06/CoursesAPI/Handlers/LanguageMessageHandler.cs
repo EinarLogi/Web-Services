@@ -10,6 +10,9 @@ using System.Web;
 
 namespace CoursesAPI
 {
+    /// <summary>
+    /// The message handler validates the request header for localized languages
+    /// </summary>
     public class LanguageMessageHandler : DelegatingHandler
     {
         private const string Langis = "is";
