@@ -1,0 +1,5 @@
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.csprojResolveAssemblyReference.cache
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.pdb
