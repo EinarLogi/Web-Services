@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.pdb
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.csprojResolveAssemblyReference.cache
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.pdb
+=======
+C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.dll
+C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\bin\Debug\CoursesAPI.Models.pdb
+C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.csprojResolveAssemblyReference.cache
+C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.dll
+C:\Users\vignir13\Documents\GitHub\Web-Services\Web Services\Week06\CoursesAPI.Models\obj\Debug\CoursesAPI.Models.pdb
+>>>>>>> 0d7e39b5ac5a8eb2f5a9cf38d8c40e6902979e49
