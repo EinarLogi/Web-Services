@@ -61,3 +61,6 @@ C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week0
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\bin\Thinktecture.IdentityServer3.AccessTokenValidation.xml
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\obj\Debug\CoursesAPI.dll
 C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\obj\Debug\CoursesAPI.pdb
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\bin\WebApi.OutputCache.Core.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\bin\WebApi.OutputCache.V2.dll
+C:\Users\einarlogi.hertz\Documents\GitHub\Web-Services\Web Services\Week07\Week06\CoursesAPI\bin\System.Net.Http.Formatting.xml
