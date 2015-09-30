@@ -72,5 +72,37 @@ namespace CoursesAPI.Services.Services
 
 			return courses;
 		}
-	}
+
+        /// <summary>
+        /// Returns CourseDetails for a specific course
+        /// </summary>
+        /// <param name="id">ID of the requested course</param>
+        /// <returns>A CourseDetailsDTO object</returns>
+        public CourseInstanceDTO GetCourseById(int id)
+        {
+            // Validate
+            var courseEntity = _courseInstances.All().SingleOrDefault(x => x.ID == id);
+            if (courseEntity == null)
+            {
+                throw new AppObjectNotFoundException();
+            }
+
+
+
+            var courseObj = (from c in _courseInstances.All()
+                             join ct in _courseTemplates.All()
+                                   on c.CourseID equals ct.CourseID
+                             where c.ID == id
+                             select new CourseInstanceDTO
+                             {
+                                 CourseInstanceID = c.ID,
+                                 Name = ct.Name,
+                                 TemplateID = c.CourseID,
+                                 MainTeacher = ""
+
+                             }).SingleOrDefault();
+
+            return courseObj;
+        }
+    }
 }

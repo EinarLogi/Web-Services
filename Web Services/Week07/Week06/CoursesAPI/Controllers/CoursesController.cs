@@ -2,6 +2,9 @@
 using CoursesAPI.Models;
 using CoursesAPI.Services.DataAccess;
 using CoursesAPI.Services.Services;
+using System.Web.Http.Description;
+using CoursesAPI.Services.Exceptions;
+using System.Net;
 
 namespace CoursesAPI.Controllers
 {
@@ -17,6 +20,7 @@ namespace CoursesAPI.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
+        [Route("")]
 		public IHttpActionResult GetCoursesBySemester(string semester = null, int page = 1)
 		{
 			// TODO: figure out the requested language (if any!)
@@ -36,5 +40,27 @@ namespace CoursesAPI.Controllers
 			var result = _service.AddTeacherToCourse(id, model);
 			return Created("TODO", result);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        [Route("{id}", Name = "GetCourseById")]
+        [ResponseType(typeof(CourseInstanceDTO))]
+        public IHttpActionResult GetCourseById(int id)
+        {
+            try
+            {
+                var result = _service.GetCourseById(id);
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (AppObjectNotFoundException)
+            {
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+        }
 	}
 }
