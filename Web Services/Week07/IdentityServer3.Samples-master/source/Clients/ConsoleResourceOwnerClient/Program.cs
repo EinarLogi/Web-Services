@@ -16,7 +16,7 @@ namespace ConsoleResourceOwnerClient
         {
             var response = RequestToken();
             ShowResponse(response);
-
+            
             Console.ReadLine();
             CallService(response.AccessToken);
         }

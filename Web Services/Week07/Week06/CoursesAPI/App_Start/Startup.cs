@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Owin;
 using Thinktecture.IdentityServer.AccessTokenValidation;
 
+
 [assembly: OwinStartup(typeof(Startup))]
 namespace API
 {
