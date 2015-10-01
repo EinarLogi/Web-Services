@@ -5,6 +5,7 @@ using CoursesAPI.Services.Services;
 using System.Web.Http.Description;
 using CoursesAPI.Services.Exceptions;
 using System.Net;
+using WebApi.OutputCache.V2;
 using API.Models;
 
 namespace CoursesAPI.Controllers
@@ -21,6 +22,7 @@ namespace CoursesAPI.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
+        [CacheOutput(ClientTimeSpan = 86400, ServerTimeSpan = 86400)]
         [Route("")]
 		public IHttpActionResult GetCoursesBySemester(string semester = null, int page = 1)
 		{
@@ -36,6 +38,7 @@ namespace CoursesAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
+        [InvalidateCacheOutput("GetCoursesBySemester")]
         [Route("")]
         [ResponseType(typeof(CourseInstanceDTO))]
         public IHttpActionResult AddNewCourse(CourseViewModel model)
