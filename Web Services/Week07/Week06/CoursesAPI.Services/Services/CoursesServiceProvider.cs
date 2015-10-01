@@ -4,6 +4,7 @@ using CoursesAPI.Models;
 using CoursesAPI.Services.DataAccess;
 using CoursesAPI.Services.Exceptions;
 using CoursesAPI.Services.Models.Entities;
+using API.Models;
 
 namespace CoursesAPI.Services.Services
 {

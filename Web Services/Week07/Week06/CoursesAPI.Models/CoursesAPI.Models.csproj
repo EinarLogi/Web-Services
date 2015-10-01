@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AddTeacherViewModel.cs" />
     <Compile Include="CourseInstanceDTO.cs" />
+    <Compile Include="CourseViewModel.cs" />
     <Compile Include="PersonDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeacherType.cs" />

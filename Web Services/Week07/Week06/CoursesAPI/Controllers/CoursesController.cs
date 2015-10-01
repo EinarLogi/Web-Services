@@ -5,6 +5,7 @@ using CoursesAPI.Services.Services;
 using System.Web.Http.Description;
 using CoursesAPI.Services.Exceptions;
 using System.Net;
+using API.Models;
 
 namespace CoursesAPI.Controllers
 {
@@ -28,12 +29,26 @@ namespace CoursesAPI.Controllers
 			return Ok(_service.GetCourseInstancesBySemester(semester, page));
 		}
 
-		/// <summary>
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// Adds a new course to the database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        [Route("")]
+        [ResponseType(typeof(CourseInstanceDTO))]
+        public IHttpActionResult AddNewCourse(CourseViewModel model)
+        {
+            return StatusCode(HttpStatusCode.Created);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
 		[Route("{id}/teachers")]
 		public IHttpActionResult AddTeacher(int id, AddTeacherViewModel model)
 		{
