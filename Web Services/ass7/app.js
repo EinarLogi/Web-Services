@@ -23,14 +23,31 @@ let users = [
 ]
 
 let punches = [
-	{companyId : companies[0].id, userId : users[0].id , time : Date.now()}
+	{companyId : companies[0].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[0].id, userId : users[1].id , time : Date.now()},
+	{companyId : companies[0].id, userId : users[2].id , time : Date.now()},
+	{companyId : companies[0].id, userId : users[3].id , time : Date.now()},
+	{companyId : companies[1].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[1].id, userId : users[1].id , time : Date.now()},
+	{companyId : companies[2].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[2].id, userId : users[3].id , time : Date.now()},
+	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
+	{companyId : companies[3].id, userId : users[0].id , time : Date.now()}
 ]
 
-app.get('/api/users', (req,res) =>{
+/**
+ * Returns a list of all users
+ */
+app.get('/api/users', (req,res) => {
 	res.json(users);
 });
 
-app.post('/api/users', (req,res) =>{
+/**
+ * Adds a new user to the system.
+ */
+app.post('/api/users', (req,res) => {
 	const data = req.body;
 
 	if(!data.hasOwnProperty('name')){
@@ -38,7 +55,7 @@ app.post('/api/users', (req,res) =>{
 		res.status(412).send('Error 412, Post syntax incorrect');
 		return;
 	}
-	if(!req.body.hasOwnProperty('email')){
+	if(!data.hasOwnProperty('email')){
 		
 		res.status(412).send('Error 412, Post syntax incorrect');
 		return;
@@ -52,24 +69,67 @@ app.post('/api/users', (req,res) =>{
 
 	users.push(newUser);
 	res.statusCode = 201;
-        res.json({message: 'Success'});
+    res.json(newUser);
 });
 
+/**
+ * Returns a list of all punches registered for the given user. 
+ * Each punch contains information about what company it was added to, 
+ * and when it was created.
+ */
+app.get('/api/users/:id/punches', (req, res) => {
 
-app.get('/api/users/:id/punches', (req, res) =>{
+	const userId = req.params.id;
+
+	/* Check if the request is for a specific company */
+	const companyId = req.query.company;
+
+	var punchesList = [];
+	if(companyId) {
+		const companyEntry = _.find(companies,(company) => {
+			return company.id === companyId;
+		});
+		/* Populate the list with all punches from given user for the specific company */
+		const punchEntries = _.forEach(punches,(punch) =>{
+			if(punch.companyId === companyId && punch.userId === userId) {
+				var punchObj = {
+					Name: companyEntry.name,
+					time: punch.time
+				};
+				punchesList.push(punchObj);
+			}
+		});
+	}
+	else {
+		/* Populate the list with all punches from given user */
+		const punchEntries = _.forEach(punches,(punch) =>{
+			if(punch.userId === userId) {
+				const companyEntry = _.find(companies,(company) => {
+					return company.id === punch.companyId;
+				});
+				var punchObj = {
+					Name: companyEntry.name,
+					time: punch.time
+				};
+				punchesList.push(punchObj);
+			}
+		});
+	}
+
+	res.statusCode = 200;
+	res.json(punchesList);
 });
-
 
 /**
  * Adds a new punch to the user account.
  */
-app.post('/api/users/:id/punches', (req,res) =>{
+app.post('/api/users/:id/punches', (req,res) => {
 
 	const userId = req.params.id;
 	const data = req.body;
 
 	/* Check if user exists */
-	const userEntry = _.find(users,(user) =>{
+	const userEntry = _.find(users,(user) => {
 		return user.id === userId;
 	});
 
@@ -101,11 +161,17 @@ app.post('/api/users/:id/punches', (req,res) =>{
 
 });
 
-app.get('/api/companies', (req,res) =>{
+/**
+ * Returns a list of all registered companies
+ */
+app.get('/api/companies', (req,res) => {
 	res.json(companies);
 });
 
-app.post('/api/companies', (req,res) =>{
+/**
+ * Adds a new company.
+ */
+app.post('/api/companies', (req,res) => {
 	const data = req.body;
 	if(!data.hasOwnProperty('name')){
 		
@@ -121,21 +187,20 @@ app.post('/api/companies', (req,res) =>{
 
 	companies.push(newCompany);
 	res.statusCode = 201;
-	res.json({message: 'Success'});
+	res.json(newCompany);
 });
 
-app.get('/api/companies/:id', function(req,res){
+/**
+ * Returns a given company by id.
+ */
+app.get('/api/companies/:id', (req,res) => {
+
 	const id = req.params.id;
-	
 	const companyEntry = _.find(companies,(company) => {
 		return company.id === id;
 	});
 
-	if(companyEntry){
 	res.status(200).json(companyEntry);
-	}else{
-		res.status(200).json(companyEntry);
-	}
 });
 
 app.listen(port);
