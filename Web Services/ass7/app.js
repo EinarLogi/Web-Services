@@ -55,21 +55,6 @@ app.post('/api/users', (req,res) =>{
         res.json({message: 'Success'});
 });
 
-app.get('/api/users/:id', (req,res) =>{
-	
-	const id = req.params.id;
-	
-	const userEntry = _.find(users,(user) => {
-		return user.id === id;
-	});
-
-	if(userEntry){
-	res.status(200).json(userEntry);
-	}else{
-		res.status(200).json(userEntry);
-	}
-	
-});
 
 app.get('/api/users/:id/punches', (req, res) =>{
 	const id = req.params.id;
