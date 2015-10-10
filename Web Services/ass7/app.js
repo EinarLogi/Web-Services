@@ -57,40 +57,6 @@ app.post('/api/users', (req,res) =>{
 
 
 app.get('/api/users/:id/punches', (req, res) =>{
-	const id = req.params.id;
-	if(users.length <= id || id < 0){
-		res.status(200).json([]);
-	}
-	const query = req.query.company;
-	console.log('query: ' + query);
-	return;
-	let punchList = [];
-	if(query){
-		let returnData;
-		let companyName;
-		for(c in companies){
-			if(c.id === query)
-			{
-				
-			}
-		}
-					
-		return;
-	}
-	
-	for( item in punches){
-		if(item.userId === id){
-			var obj = {
-				company : item.company,
-				time : item.time
-			};
-			punchList.push(obj);
-			
-		}
-	}
-	res.status(200).json(punchList);
-		
-		
 });
 
 
