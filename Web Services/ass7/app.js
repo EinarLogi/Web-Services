@@ -161,7 +161,7 @@ app.post('/api/companies', (req,res) =>{
 app.get('/api/companies/:id', function(req,res){
 	const id = req.params.id;
 	
-	const companyEntry = _.find(users,(user) => {
+	const companyEntry = _.find(companies,(company) => {
 		return company.id === id;
 	});
 
