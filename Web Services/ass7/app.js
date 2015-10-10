@@ -52,7 +52,8 @@ app.post('/api/users', (req,res) =>{
 
 	users.push(newUser);
 	res.statusCode = 201;
-        res.json({message: 'Success'});
+	res.json(newUser);
+        //res.json({message: 'Success'});
 });
 
 app.get('/api/users/:id', (req,res) =>{
