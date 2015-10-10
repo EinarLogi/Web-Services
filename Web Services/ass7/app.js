@@ -60,38 +60,44 @@ app.get('/api/users/:id/punches', (req, res) =>{
 });
 
 
+/**
+ * Adds a new punch to the user account.
+ */
 app.post('/api/users/:id/punches', (req,res) =>{
 
+	const userId = req.params.id;
 	const data = req.body;
-	
-	if(users.length <= req.params.id || req.params.id < 0){
+
+	/* Check if user exists */
+	const userEntry = _.find(users,(user) =>{
+		return user.id === userId;
+	});
+
+	if(!userEntry) {
 		res.status(404).send('Error 404: User not found');
 		return;
 	}
-	
-	const indexOfCompany = companies.indexOf(data.id);
-	
-	if(indexOfCompany === -1){
+
+	/* Check if company exists */
+	const companyEntry = _.find(companies,(company) => {
+		return company.id === data.id;
+	});
+
+	if(!companyEntry) {
 		res.status(404).send('Error 404: Company not found');
 		return;
 	}
-	
-	const index = punches.indexOf(data.id);
 
-	if(index){
-	
-		punches[index].punchCount += 1;
-		res.status(200).send('Success');
-		return;
-	}
-
-	
 	let newPunch = {
-		companyId : companies[indexOfCompanies].id,
-		userId : req.params.id,	
+		companyId : companyEntry.id,
+		userId : userEntry.id,	
 		time : Date.now()
 	};
-	
+
+	/* Add to punches table and return data to user */
+	users.push(newPunch);
+	res.statusCode = 201;
+	res.json(newPunch);
 
 });
 
