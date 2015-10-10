@@ -56,21 +56,6 @@ app.post('/api/users', (req,res) =>{
         //res.json({message: 'Success'});
 });
 
-app.get('/api/users/:id', (req,res) =>{
-	
-	const id = req.params.id;
-	
-	const userEntry = _.find(users,(user) => {
-		return user.id === id;
-	});
-
-	if(userEntry){
-	res.status(200).json(userEntry);
-	}else{
-		res.status(200).json(userEntry);
-	}
-	
-});
 
 app.get('/api/users/:id/punches', (req, res) =>{
 	const id = req.params.id;
@@ -78,11 +63,13 @@ app.get('/api/users/:id/punches', (req, res) =>{
 		res.status(200).json([]);
 	}
 	const query = req.params.company;
+	let punchList = [];
 	if(query){
+		
+			
 		return;
 	}
 	
-	let punchList = [];
 	for( item in punches){
 		if(item.userid === id){
 			var obj = {
@@ -158,13 +145,17 @@ app.post('/api/companies', (req,res) =>{
 });
 
 app.get('/api/companies/:id', function(req,res){
-	if(companies.length <= req.params.id || req.params.id < 0){
-		res.statusCode = 200;
-		res.json([]);
-	}
+	const id = req.params.id;
+	
+	const companyEntry = _.find(companies,(company) => {
+		return company.id === id;
+	});
 
-	let company = companies[req.params.id];
-	res.json(user);
+	if(companyEntry){
+	res.status(200).json(companyEntry);
+	}else{
+		res.status(200).json(companyEntry);
+	}
 });
 
 app.listen(port);
