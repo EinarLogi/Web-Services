@@ -23,7 +23,7 @@ let users = [
 ]
 
 let punches = [
-	{companyId : companies[0].id, userId : users[0].id , punchCount :  2, time : Date.now()}
+	{companyId : companies[0].id, userId : users[0].id , time : Date.now()}
 ]
 
 app.get('/api/users', (req,res) =>{
@@ -61,16 +61,25 @@ app.get('/api/users/:id/punches', (req, res) =>{
 	if(users.length <= id || id < 0){
 		res.status(200).json([]);
 	}
-	const query = req.params.company;
+	const query = req.query.company;
+	console.log('query: ' + query);
+	return;
 	let punchList = [];
 	if(query){
-		
-			
+		let returnData;
+		let companyName;
+		for(c in companies){
+			if(c.id === query)
+			{
+				
+			}
+		}
+					
 		return;
 	}
 	
 	for( item in punches){
-		if(item.userid === id){
+		if(item.userId === id){
 			var obj = {
 				company : item.company,
 				time : item.time
