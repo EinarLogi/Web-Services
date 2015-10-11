@@ -38,6 +38,7 @@ let punches = [
 	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')}
 ]
 
+
 /**
  * Returns a list of all users
  */
@@ -93,7 +94,7 @@ app.get('/api/users/:id/punches', (req, res) => {
 		/* Populate the list with all punches from given user for the specific company */
 		const punchEntries = _.forEach(punches,(punch) =>{
 			if(punch.companyId === companyId && punch.userId === userId) {
-				var punchObj = {
+				let punchObj = {
 					Name: companyEntry.name,
 					time: punch.time
 				};
@@ -108,7 +109,7 @@ app.get('/api/users/:id/punches', (req, res) => {
 				const companyEntry = _.find(companies,(company) => {
 					return company.id === punch.companyId;
 				});
-				var punchObj = {
+				let punchObj = {
 					Name: companyEntry.name,
 					time: punch.time
 				};

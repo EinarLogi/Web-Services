@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Einar Logi Hreinsson",
+  "authors": "Einar Logi Hreinsson & Vignir Karl Gylfason",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.1",
