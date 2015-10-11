@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+const moment = require('moment');
 const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
@@ -23,18 +24,18 @@ let users = [
 ]
 
 let punches = [
-	{companyId : companies[0].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[0].id, userId : users[1].id , time : Date.now()},
-	{companyId : companies[0].id, userId : users[2].id , time : Date.now()},
-	{companyId : companies[0].id, userId : users[3].id , time : Date.now()},
-	{companyId : companies[1].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[1].id, userId : users[1].id , time : Date.now()},
-	{companyId : companies[2].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[2].id, userId : users[3].id , time : Date.now()},
-	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[3].id, userId : users[0].id , time : Date.now()},
-	{companyId : companies[3].id, userId : users[0].id , time : Date.now()}
+	{companyId : companies[0].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[0].id, userId : users[1].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[0].id, userId : users[2].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[0].id, userId : users[3].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[1].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[1].id, userId : users[1].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[2].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[2].id, userId : users[3].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
+	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')}
 ]
 
 /**
@@ -69,7 +70,7 @@ app.post('/api/users', (req,res) => {
 
 	users.push(newUser);
 	res.statusCode = 201;
-    res.json(newUser);
+    	res.json(newUser);
 });
 
 /**
@@ -151,7 +152,7 @@ app.post('/api/users/:id/punches', (req,res) => {
 	let newPunch = {
 		companyId : companyEntry.id,
 		userId : userEntry.id,	
-		time : Date.now()
+		time : moment().format('MMMM Do YYYY, h:mm:ss a')
 	};
 
 	/* Add to punches table and return data to user */
