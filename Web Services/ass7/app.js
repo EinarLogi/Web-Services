@@ -5,6 +5,7 @@ const moment = require('moment');
 const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const db = require('./db')
 
 const app = express();
 
@@ -13,39 +14,33 @@ const port = 8080;
 app.use(bodyParser.json());
 
 /**
+ * Adds a new user to the system.
+ */
+app.post('/api/users', (req,res) => {
+	const data = req.body;
+
+	console.log(data);
+	db.addUser(data, (err, dbrs) => {
+		console.log(err);
+		console.log(dbrs);
+		res.send('ok');
+	})
+	res.status(201);
+
+	
+});
+
+
+
+
+/**
  * Returns a list of all users
  */
 app.get('/api/users', (req,res) => {
 	res.json(users);
 });
 
-/**
- * Adds a new user to the system.
- */
-app.post('/api/users', (req,res) => {
-	const data = req.body;
 
-	if(!data.hasOwnProperty('name')){
-	
-		res.status(412).send('Error 412, Post syntax incorrect');
-		return;
-	}
-	if(!data.hasOwnProperty('email')){
-		
-		res.status(412).send('Error 412, Post syntax incorrect');
-		return;
-	}
-	
-	let newUser = {
-		id: uuid.v4(),
-		name: data.name,
-		email: data.email
-	};
-
-	users.push(newUser);
-	res.statusCode = 201;
-    	res.json(newUser);
-});
 
 /**
  * Returns a list of all punches registered for the given user. 
@@ -60,39 +55,8 @@ app.get('/api/users/:id/punches', (req, res) => {
 	const companyId = req.query.company;
 
 	var punchesList = [];
-	if(companyId) {
-		const companyEntry = _.find(companies,(company) => {
-			return company.id === companyId;
-		});
-		/* Populate the list with all punches from given user for the specific company */
-		const punchEntries = _.forEach(punches,(punch) =>{
-			if(punch.companyId === companyId && punch.userId === userId) {
-				let punchObj = {
-					Name: companyEntry.name,
-					time: punch.time
-				};
-				punchesList.push(punchObj);
-			}
-		});
-	}
-	else {
-		/* Populate the list with all punches from given user */
-		const punchEntries = _.forEach(punches,(punch) =>{
-			if(punch.userId === userId) {
-				const companyEntry = _.find(companies,(company) => {
-					return company.id === punch.companyId;
-				});
-				let punchObj = {
-					Name: companyEntry.name,
-					time: punch.time
-				};
-				punchesList.push(punchObj);
-			}
-		});
-	}
-
-	res.statusCode = 200;
-	res.json(punchesList);
+	
+	
 });
 
 /**
@@ -103,36 +67,7 @@ app.post('/api/users/:id/punches', (req,res) => {
 	const userId = req.params.id;
 	const data = req.body;
 
-	/* Check if user exists */
-	const userEntry = _.find(users,(user) => {
-		return user.id === userId;
-	});
-
-	if(!userEntry) {
-		res.status(404).send('Error 404: User not found');
-		return;
-	}
-
-	/* Check if company exists */
-	const companyEntry = _.find(companies,(company) => {
-		return company.id === data.id;
-	});
-
-	if(!companyEntry) {
-		res.status(404).send('Error 404: Company not found');
-		return;
-	}
-
-	let newPunch = {
-		companyId : companyEntry.id,
-		userId : userEntry.id,	
-		time : moment().format('MMMM Do YYYY, h:mm:ss a')
-	};
-
-	/* Add to punches table and return data to user */
-	users.push(newPunch);
-	res.statusCode = 201;
-	res.json(newPunch);
+	
 
 });
 
@@ -140,7 +75,7 @@ app.post('/api/users/:id/punches', (req,res) => {
  * Returns a list of all registered companies
  */
 app.get('/api/companies', (req,res) => {
-	res.json(companies);
+
 });
 
 /**
@@ -148,21 +83,7 @@ app.get('/api/companies', (req,res) => {
  */
 app.post('/api/companies', (req,res) => {
 	const data = req.body;
-	if(!data.hasOwnProperty('name')){
-		
-		res.status(412).send('Error 412: Post syntax incorrect');
-		return;
-	}
-
-	let newCompany = {
-		id: uuid.v4(),
-		name : data.name,
-		punchCount : data.punchCount || 10 
-	};
-
-	companies.push(newCompany);
-	res.statusCode = 201;
-	res.json(newCompany);
+	
 });
 
 /**
@@ -171,11 +92,7 @@ app.post('/api/companies', (req,res) => {
 app.get('/api/companies/:id', (req,res) => {
 
 	const id = req.params.id;
-	const companyEntry = _.find(companies,(company) => {
-		return company.id === id;
-	});
 
-	res.status(200).json(companyEntry);
 });
 
 app.listen(port);
