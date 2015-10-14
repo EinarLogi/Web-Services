@@ -13,6 +13,8 @@
     "express": "^4.13.3",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
-    "node-uuid": "^1.4.3"
+    "mongodb": "^2.0.45",
+    "node-uuid": "^1.4.3",
+    "nodemon": "^1.7.1"
   }
 }

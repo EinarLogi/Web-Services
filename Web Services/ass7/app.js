@@ -1,43 +1,16 @@
 'use strict'
 
 const express = require('express');
-const app = express();
 const moment = require('moment');
 const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+
+const app = express();
+
 const port = 8080;
 
 app.use(bodyParser.json());
-
-let companies = [
-	{id: uuid.v4(), name: 'Pizza food', punchCount: 10},
-	{id: uuid.v4(), name: 'Kebab Macarena', punchCount : 10},
-	{id: uuid.v4(), name: 'Texas Burgers', punchCount: 30},
-	{id: uuid.v4(), name: 'Subway', punchCount: 10}
-]
-let users = [
-	{id: uuid.v4(), name: 'Mark Zuckerberg', email: 'zuckerberg@facebook.com'},
-	{id: uuid.v4(), name: 'Sundar Pichai', email: 'picahi@Alphabet.com'},
-	{id: uuid.v4(), name: 'Larry Page', email: 'page@google.com'},
-	{id: uuid.v4(), name: 'Jack Dorsey', email: 'dorsey@twitter.com'}
-]
-
-let punches = [
-	{companyId : companies[0].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[0].id, userId : users[1].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[0].id, userId : users[2].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[0].id, userId : users[3].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[1].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[1].id, userId : users[1].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[2].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[2].id, userId : users[3].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')},
-	{companyId : companies[3].id, userId : users[0].id , time : moment().format('MMMM Do YYYY, h:mm:ss a')}
-]
-
 
 /**
  * Returns a list of all users
