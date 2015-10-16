@@ -4,9 +4,10 @@
 
 const express = require('express');
 const moment = require('moment');
-const uuid = require('node-uuid');
+//const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const models = require('./models');
 
 
 const api = express();
@@ -16,19 +17,24 @@ const api = express();
 api.use(bodyParser.json());
 
 /**
- * Adds a new user to the system.
+ * Adds a new company to the system.
  */
 api.post('/company', (req,res) => {
 	const data = req.body;
-
 	console.log(data);
-	/*db.addCompany(data, (err, dbrs) => {
-		console.log(err);
-		console.log(dbrs);
-		res.send('ok');
-	})*/
-	res.status(201);
 
+	const newCompany = new models.Company(data);
+	newCompany.save(function(err, doc) {
+		if(err) {
+			res.status(500).send(err);	// ATH
+			return;
+		}
+		else {
+			res.status(201);
+			res.send(doc);
+			return;
+		}
+	})
 	
 });
 

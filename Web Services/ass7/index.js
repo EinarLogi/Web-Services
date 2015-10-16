@@ -12,6 +12,7 @@ app.use('/api', api);
 /* Connect to MongoDB */
 const url = 'localhost/punchcardApp';
 mongoose.connect(url);
+
 mongoose.connection.once('open', function() {
 	console.log('mongoose is connected');
 	app.listen(port, function() {
