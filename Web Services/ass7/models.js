@@ -25,6 +25,7 @@ const UserSchema = mongoose.Schema({
 	female or other respectively. */
 	gender: {
 		type: String,
+		length: 1,
 		required: true,
 	}
 });
@@ -44,8 +45,26 @@ const CompanySchema = mongoose.Schema({
 	punchcard_lifetime: {
 		type: Number,
 		required: true,
-	},
+	}
 });
+
+const PunchcardSchema = mongoose.Schema({
+	/* The id of the company */
+	company_id: {
+		type: Number,
+		required: true,
+	},
+	/* The id of the user */
+	user_id: {
+		type: Number,
+		required: true,
+	},
+	/* Time stamp when this punch card was created. */
+	created: {
+		type: Date,
+		default: new Date(),
+	}
+})
 
 module.exports = {
 	User: mongoose.model('User', UserSchema),
