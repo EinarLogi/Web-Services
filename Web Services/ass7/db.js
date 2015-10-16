@@ -3,7 +3,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/project'
 
-const addUser = function(data, cb) {
+const addCompany = function(company, cb) {
 
 	MongoClient.connect(url, (err, db) => {
 		if(err){
@@ -12,8 +12,8 @@ const addUser = function(data, cb) {
 			return;
 		}
 
-		const collection = db.collection('Users');
-		collection.instert(user, function(ierr, res) {
+		const collection = db.collection('Companies');
+		collection.insert(company, function(ierr, res) {
 			if(ierr) {
 				cb(ierr);
 				db.close();
@@ -23,8 +23,8 @@ const addUser = function(data, cb) {
 
 		});
 	});
+}
 
-	module.exports = {
-		addUser: addUser,
-	}
+module.exports = {
+	addCompany: addCompany,
 }
