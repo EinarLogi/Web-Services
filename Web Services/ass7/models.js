@@ -15,7 +15,6 @@ const UserSchema = mongoose.Schema({
 	token: {
 		type: String,
 		required: true,
-		//default: uuid.v4()
 	},
 	/* Integer value representing the age of the user */
 	age: {
@@ -73,15 +72,5 @@ module.exports = {
 	Punchcard: mongoose.model('Punchcard', PunchcardSchema)
 }
 
-//const Company = mongoose.model('Company', CompanySchema);
-
-/*
-const company1 = new Company({
-	name:
-	token:
-	age:
-	gender:
-});
-*/
 
 

@@ -1,7 +1,5 @@
 'use strict';
 
-//const db = require('./db');
-
 const express = require('express');
 const moment = require('moment');
 const uuid = require('node-uuid');
@@ -55,7 +53,7 @@ const adminMiddleware = function(req, res, next) {
 api.get('/company', (req, res) => {
 	models.Company.find({}, (err, docs) => {
 		if(err) {
-			res.status(500).send(err.message);	// ATH
+			res.status(500).send(err.message);
 			return;
 		}
 		else {
@@ -83,8 +81,12 @@ api.get('/company/:id', (req, res) => {
 			return;
 		}
 		else {
-			res.status(200);
-			res.send(docs);
+			if(docs === null) {
+				res.status(404).send('Error 404: Not found');
+			}
+			else {
+				res.status(200).send(docs);
+			}
 		}
 	});
 });
@@ -93,8 +95,8 @@ api.get('/company/:id', (req, res) => {
  * Adds a new company to the MongoDB.
  */
 api.post('/company', adminMiddleware, (req, res) => {
-	const data = req.body;
 
+	const data = req.body;
 	const newCompany = new models.Company(data);
 	newCompany.save(function(err, docs) {
 		if(err) {
@@ -115,9 +117,7 @@ api.post('/company', adminMiddleware, (req, res) => {
  */
 api.get('/user', (req, res) =>{
 
-	// VERKEFNI FYRIR EINAR: the token value within the user document must be removed from the document before it is written to the response.
-
-	models.User.find({}, (err, docs)=>{
+	models.User.find({}, '-token', (err, docs)=>{
 		if(err) {
 			res.status(500).send(err);
 			return;
@@ -222,6 +222,4 @@ api.post('/punchcard/:id',authMiddleware, (req,res) =>{
 
 });
 
-
-//app.listen(port);
 module.exports = api;
