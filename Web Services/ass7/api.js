@@ -22,7 +22,7 @@ const ADMIN_TOKEN = 'KLOPP4KOP';
 api.get('/company', (req, res) => {
 	models.Company.find({}, (err, docs) => {
 		if(err) {
-			res.status(500).send(err);	// ATH
+			res.status(500).send(err.message);	// ATH
 			return;
 		}
 		else {
@@ -86,6 +86,30 @@ api.get('/user', (req, res) =>{
 		}
 	});
 });
+
+api.post('/user', (req,res)=> {
+	const data = req.body;
+
+	const newUser = new models.User(data);
+	newUser.save(function(err, docs){
+		if(err){
+			res.status(500).send(err);
+			return;
+		}
+		else{
+			res.status(201).send(docs);
+			return;
+		}
+	});
+});
+
+/*api.post('/punchcard/:id',(req,res) =>{
+	const data = req.body;
+	const id = req.params.id;
+	console.log('data, token: ', data);
+
+
+});*/
 
 
 //app.listen(port);
