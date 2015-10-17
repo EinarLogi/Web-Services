@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const uuid = require('node-uuid');
+//const uuid = require('node-uuid');
 
 const UserSchema = mongoose.Schema({
 	/* String which represents the name of the user. */
@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
 	(The uuid node module can be handy here). */
 	token: {
 		type: String,
-		default: uuid.v4()
+		required: true,
+		//default: uuid.v4()
 	},
 	/* Integer value representing the age of the user */
 	age: {
@@ -51,12 +52,12 @@ const CompanySchema = mongoose.Schema({
 const PunchcardSchema = mongoose.Schema({
 	/* The id of the company */
 	company_id: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 	/* The id of the user */
 	user_id: {
-		type: Number,
+		type: String,
 		required: true,
 	},
 	/* Time stamp when this punch card was created. */
@@ -68,7 +69,8 @@ const PunchcardSchema = mongoose.Schema({
 
 module.exports = {
 	User: mongoose.model('User', UserSchema),
-	Company: mongoose.model('Company', CompanySchema)
+	Company: mongoose.model('Company', CompanySchema),
+	Punchcard: mongoose.model('Punchcard', PunchcardSchema)
 }
 
 //const Company = mongoose.model('Company', CompanySchema);

@@ -4,7 +4,7 @@
 
 const express = require('express');
 const moment = require('moment');
-//const uuid = require('node-uuid');
+const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 const models = require('./models');
@@ -87,10 +87,11 @@ api.get('/user', (req, res) =>{
 	});
 });
 
-api.post('/user', (req,res)=> {
+api.post('/user', (req, res)=> {
 	const data = req.body;
 
 	const newUser = new models.User(data);
+	newUser.token = uuid.v4();
 	newUser.save(function(err, docs){
 		if(err){
 			res.status(500).send(err);
@@ -103,13 +104,88 @@ api.post('/user', (req,res)=> {
 	});
 });
 
-/*api.post('/punchcard/:id',(req,res) =>{
-	const data = req.body;
-	const id = req.params.id;
-	console.log('data, token: ', data);
+const authMiddleware = function(req, res, next) {
+	if(!req.headers.token) {
+		res.status(401).send('No token');
+		return;
+	}
+	else {
+		next();
+		
+	}
+}
 
+api.post('/punchcard/:id',authMiddleware, (req,res) =>{
+	//const data = req.body;
+	const companyId = req.params.id;
+	console.log('cID:', companyId);
+	
 
-});*/
+	/* Check if user exists */
+	models.User.findOne({'token': req.headers.token}, (err, user)=>{
+		if(err) {
+			res.status(500).send(err);
+			return;
+		}
+		else {
+			if(user.length === 0){
+				res.status(401).send('User does not exist');
+				return;
+			}
+			else {
+				/* User exists */
+				models.Company.findById(companyId, (err, company)=>{
+					if(err) {
+						res.status(500).send(err);
+						return;
+					}
+					else {
+						//console.log(user.length);
+						if(company.length === 0){
+							res.status(404).send('Company does not exist');
+							return;
+						}
+						else {
+							/* Company exists */
+
+							/* Check if the user has a working punchcard */
+							/*models.Punchcard.find({'user_id': user._id}, (err, pc)=>{
+								if(err) {
+									res.status(500).send(err);
+									return;
+								}
+								else {
+									for (var i = 0; i < pc.length; i++) {
+									  console.log(pc[i]);
+									}
+								}
+							});*/
+
+							let punchcardObj = {
+								company_id: company._id,
+								user_id: user._id
+							};
+							console.log(punchcardObj);
+							/* Add punchcard to MongoDB */
+							const newPunchcard = new models.Punchcard(punchcardObj);
+							newPunchcard.save(function(err, docs){
+								if(err){
+									res.status(500).send(err);
+									return;
+								}
+								else{
+									res.status(201).send(docs);
+									return;
+								}
+							});
+						}
+					}
+				});
+			}
+		}
+	});
+
+});
 
 
 //app.listen(port);
