@@ -74,6 +74,19 @@ api.post('/company', (req, res) => {
 
 });
 
+api.get('/user', (req, res) =>{
+	models.User.find({}, (err, docs)=>{
+		if(err) {
+			res.status(500).send(err);	// ATH
+			return;
+		}
+		else {
+			res.status(200);
+			res.send(docs);
+		}
+	});
+});
+
 
 //app.listen(port);
 module.exports = api;
