@@ -17,6 +17,20 @@ api.use(bodyParser.json());
 const ADMIN_TOKEN = 'KLOPP4KOP';
 
 /*
+ * Authenticates the users token
+ */
+const authMiddleware = function(req, res, next) {
+	if(!req.headers.token) {
+		res.status(401).send('No token');
+		return;
+	}
+	else {
+		next();
+		
+	}
+}
+
+/*
  *	Returns a list of all companies in the MongoDB.
  */
 api.get('/company', (req, res) => {
@@ -104,22 +118,11 @@ api.post('/user', (req, res)=> {
 	});
 });
 
-const authMiddleware = function(req, res, next) {
-	if(!req.headers.token) {
-		res.status(401).send('No token');
-		return;
-	}
-	else {
-		next();
-		
-	}
-}
-
+/*
+ * Creates a new punch card for a user. 
+ */
 api.post('/punchcard/:id',authMiddleware, (req,res) =>{
-	//const data = req.body;
 	const companyId = req.params.id;
-	console.log('cID:', companyId);
-	
 
 	/* Check if user exists */
 	models.User.findOne({'token': req.headers.token}, (err, user)=>{
@@ -140,7 +143,6 @@ api.post('/punchcard/:id',authMiddleware, (req,res) =>{
 						return;
 					}
 					else {
-						//console.log(user.length);
 						if(company.length === 0){
 							res.status(404).send('Company does not exist');
 							return;
@@ -149,34 +151,39 @@ api.post('/punchcard/:id',authMiddleware, (req,res) =>{
 							/* Company exists */
 
 							/* Check if the user has a working punchcard */
-							/*models.Punchcard.find({'user_id': user._id}, (err, pc)=>{
+							models.Punchcard.find({$and: [{'user_id': user._id}, {'company_id': company._id}]}, (err, pc)=>{
 								if(err) {
 									res.status(500).send(err);
 									return;
 								}
 								else {
 									for (var i = 0; i < pc.length; i++) {
-									  console.log(pc[i]);
+									  var now = new Date();
+									  var timeDiff = Math.abs(now.getTime() - pc[i].created.getTime());
+									  var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+									  if(diffDays <= company.punchcard_lifetime){
+									  	res.status(409).send('User already has a working punch card for this company');
+									  	return;
+									  }
 									}
 								}
-							});*/
 
-							let punchcardObj = {
-								company_id: company._id,
-								user_id: user._id
-							};
-							console.log(punchcardObj);
-							/* Add punchcard to MongoDB */
-							const newPunchcard = new models.Punchcard(punchcardObj);
-							newPunchcard.save(function(err, docs){
-								if(err){
-									res.status(500).send(err);
-									return;
-								}
-								else{
-									res.status(201).send(docs);
-									return;
-								}
+								let punchcardObj = {
+									company_id: company._id,
+									user_id: user._id
+								};
+								/* Add punchcard to MongoDB */
+								const newPunchcard = new models.Punchcard(punchcardObj);
+								newPunchcard.save(function(err, docs){
+									if(err){
+										res.status(500).send(err);
+										return;
+									}
+									else{
+										res.status(201).send(docs);
+										return;
+									}
+								});
 							});
 						}
 					}
