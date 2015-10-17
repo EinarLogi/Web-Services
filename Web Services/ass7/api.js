@@ -8,6 +8,7 @@ const uuid = require('node-uuid');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 const models = require('./models');
+const mongoose = require('mongoose');
 
 
 const api = express();
@@ -17,7 +18,7 @@ api.use(bodyParser.json());
 const ADMIN_TOKEN = 'KLOPP4KOP';
 
 /*
- * Authenticates the users token
+ * Checks if header contains a token
  */
 const authMiddleware = function(req, res, next) {
 	if(!req.headers.token) {
@@ -28,6 +29,24 @@ const authMiddleware = function(req, res, next) {
 		next();
 		
 	}
+}
+
+/*
+ * Checks if header contains a admin token
+ */
+const adminMiddleware = function(req, res, next) {
+	if(!req.headers.token) {
+		res.status(401).send('No token');
+		return;
+	}
+	else if(req.headers.token === ADMIN_TOKEN) {
+		next();
+	}
+	else {
+		res.status(401).send('You are not admin');
+		return;
+	}
+
 }
 
 /*
@@ -47,14 +66,18 @@ api.get('/company', (req, res) => {
 });
 
 /*
- *	Returns a list of all companies in the MongoDB with given id.
+ *	Returns the company in the MongoDB with given id.
  */
 api.get('/company/:id', (req, res) => {
 
 	const companyId = req.params.id;
-	// TODO: id er ekki valid ef er ekki 24 stafir?
+	if(!mongoose.Types.ObjectId.isValid(companyId)) {
+		console.log('Ekki valid');
+		res.status(404).send('Id not valid');
+		return;
+	}
 
-	models.Company.find({'_id': companyId}, (err, docs) => {
+	models.Company.findById(companyId, (err, docs) => {
 		if(err) {
 			res.status(500).send(err);
 			return;
@@ -67,16 +90,15 @@ api.get('/company/:id', (req, res) => {
 });
 
 /**
- * Adds a new company to the system.
+ * Adds a new company to the MongoDB.
  */
-api.post('/company', (req, res) => {
+api.post('/company', adminMiddleware, (req, res) => {
 	const data = req.body;
-	console.log(data);
 
 	const newCompany = new models.Company(data);
 	newCompany.save(function(err, docs) {
 		if(err) {
-			res.status(500).send(err);	// ATH
+			res.status(412).send('Precondition failed');
 			return;
 		}
 		else {
@@ -88,10 +110,16 @@ api.post('/company', (req, res) => {
 
 });
 
+/*
+ * Returns a list of all users that are in the MongoDB. 
+ */
 api.get('/user', (req, res) =>{
+
+	// VERKEFNI FYRIR EINAR: the token value within the user document must be removed from the document before it is written to the response.
+
 	models.User.find({}, (err, docs)=>{
 		if(err) {
-			res.status(500).send(err);	// ATH
+			res.status(500).send(err);
 			return;
 		}
 		else {
