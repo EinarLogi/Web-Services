@@ -77,7 +77,7 @@ api.get('/company/:id', (req, res) => {
 
 	models.Company.findById(companyId, (err, docs) => {
 		if(err) {
-			res.status(500).send(err);
+			res.status(500).send(err.message);
 			return;
 		}
 		else {
@@ -119,7 +119,7 @@ api.get('/user', (req, res) =>{
 
 	models.User.find({}, '-token', (err, docs)=>{
 		if(err) {
-			res.status(500).send(err);
+			res.status(500).send(err.message);
 			return;
 		}
 		else {
@@ -136,7 +136,7 @@ api.post('/user', (req, res)=> {
 	newUser.token = uuid.v4();
 	newUser.save(function(err, docs){
 		if(err){
-			res.status(500).send(err);
+			res.status(500).send(err.message);
 			return;
 		}
 		else{

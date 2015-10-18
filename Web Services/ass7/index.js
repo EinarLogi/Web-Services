@@ -14,9 +14,9 @@ const url = 'localhost/punchcardApp';
 mongoose.connect(url);
 
 mongoose.connection.once('open', function() {
-	console.log('mongoose is connected');
+	//console.log('mongoose is connected');
 	app.listen(port, function() {
-		console.log('Server starting on port', port);
+		//console.log('Server starting on port', port);
 	});
 });
 
