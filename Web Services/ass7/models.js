@@ -25,7 +25,8 @@ const UserSchema = mongoose.Schema({
 	female or other respectively. */
 	gender: {
 		type: String,
-		length: 1,
+		minlength: 1,
+		maxlength: 1,
 		required: true,
 	}
 });

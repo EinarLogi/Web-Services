@@ -10,7 +10,7 @@ const app = express();
 app.use('/api', api);
 
 /* Connect to MongoDB */
-const url = 'localhost/punchcardApp';
+const url = 'localhost/app';
 mongoose.connect(url);
 
 mongoose.connection.once('open', function() {
