@@ -1,7 +1,7 @@
 {
   "name": "ass7",
   "version": "1.0.0",
-  "description": "Assignment 7, A revolutionary application which solves this problem of having multiple punch cards from the same company.",
+  "description": "Assignment 7, A revolutionary application which solves this problem of having multiple punch cards from the same company. It is implemented using NodeJS and MongoDB, where all data is stored. The Mongoose ORM library is used to communicate with the database.",
   "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
