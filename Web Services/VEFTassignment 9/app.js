@@ -75,9 +75,12 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware,bodyParser.json(), 
 	const data = req.body;
 	let newCompany = new models.Company(data);
 	const id = uuid.v4();
+	const created = new Date();
+	const title = req.body.title;
+	const url = req.body.url;
 
 	newCompany.id = id;
-	newCompany.created = new Date();
+	newCompany.created = created;
 	console.log(newCompany);
 	newCompany.save((err,docs) =>{
 		if(err){
@@ -93,17 +96,27 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware,bodyParser.json(), 
 		else{
 			res.status(201).send(docs);
 
-			/*const promise = client.index({
+			const stuff = {
+				'id': newCompany.id,
+				'title': title,
+				'description': newCompany.description,
+				'url': url,
+				'created': created
+			};
+
+			const promise = client.index({
 				'index': 'companies',
 				'type': 'feed',
-				'id': newCompany._id,
-				'body': newCompany
+				'id': id,
+				'body': stuff
 			});
 			promise.then((doc)=>{
-				res.send(doc);
+				console.log('inside promise');
+				console.log(doc);
 			},(eerr)=>{
+				console.log('inside promise err');
 				res.status(500);
-			})*/
+			});
 		}
 	});
 	
