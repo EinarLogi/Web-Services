@@ -59,7 +59,7 @@ app.get('/api/feeds/:wall_id',(req,res)=>{
 		'size': size,
 		'from': page,
 		'query':{
-			'mathc':{
+			'match':{
 				'wall_id': wallId
 			}
 		}

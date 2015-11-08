@@ -49,11 +49,36 @@ const contentTypeMiddleware = (req, res, next) =>{
 	}
 };
 
-/*return users but not their token
-*required: token needs to be in header in order to receive the users
+/*GET /companies[?page=N&max=N]
+*Endpoint for fetching list of companies that have been added to Punchy. 
+*The companies should be fetched from ElasticSearch. This endpoint should return 
+*a list of Json objects with the following fields.
+*id,
+*title
+*description
+*url
+*Other fields should be excluded. This endpoint accepts two request parameters, 
+*page and max. If they are not presented they should be defaulted by 0 and 20 respectively. 
+*They should control the pagination in Elasticsearch and allow the client to paginate the result.
+*The list should be ordered by alphabetically by the company title.
 */
+
 api.get('/companies',(req,res) =>{
-	res.status(200).send('hello');
+	const page = req.query.page || 0;
+	const max = req.query.max || 20;
+
+	const promise = client.search({
+		'index': 'companies',
+		'type': 'feed',
+		'size': max,
+		'from': page
+	});
+	promise.then((doc)=>{
+		console.log('get companies inside doc');
+		res.status(200).send(doc);
+	}, (err)=>{
+		res.status(500).send('promise error');
+	})
 });
 
 /*create a new user and sends data to kafka stream after user has been saved to database
