@@ -81,11 +81,43 @@ api.get('/companies',(req,res) =>{
 	})
 });
 
-/*create a new user and sends data to kafka stream after user has been saved to database
-*required: username, password, email, age
+/*GET /companies/:id - 20%
+*Fetch a given company by id from Mongodb. If no company we return an empty 
+*response with status code 404. If a given company is found we return a Json object 
+*with the following fields.
+*id,
+*title
+*description
+*url
+*Other fields should be omitted from the response.
 */
-api.get('/companies/id', bodyParser.json(), (req,res)=>{
+api.get('/companies/:id', bodyParser.json(), (req,res)=>{
+	const id = req.params.id;
 
+	const promise = client.search({
+		'index': 'companies',
+		'type': 'feed',
+		'body':{
+			'query':{
+				'match':{
+					'id': id
+				}
+			}
+		}
+	});
+
+	promise.then((doc)=>{
+		const data = doc.hits.hits[0];
+		const returnObject = {
+			'id': data._source.id,
+			'title': data._source.title,
+			'description': data._source.description,
+			'url': data._source.url
+		}
+		res.send(returnObject);
+	}, (err)=>{
+		res.status(500).send('promise error');
+	})
 });
 
 /*
@@ -97,6 +129,17 @@ api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 	
 	const companyId = req.params.id;
 
+	const promise = client.deleteByQuery({
+		'index': 'companies',
+		'type': 'feed',
+		'body':{
+			'query':{
+				'match':{
+					'id': id
+				}
+			}
+		}
+	});
 
 	res.status(200).send(companyId);
 });
