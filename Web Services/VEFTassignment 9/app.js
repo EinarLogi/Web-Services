@@ -85,14 +85,26 @@ api.get('/companies',(req,res) =>{
 *required: username, password, email, age
 */
 api.get('/companies/id', bodyParser.json(), (req,res)=>{
+
+});
+
+/*
+ * All the preconditions from POST /company also apply for this route. 
+ * If not company is found by the :id then the routes should respond with status code 404. 
+ * The company document must be deleted from MongoDB and from ElasticSearch.
+ */
+api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 	
+	const companyId = req.params.id;
+
+
+	res.status(200).send(companyId);
 });
 
 /*
 *required parameters:
 *title: name of the company
 *url: company's homepage
-*
 *optional parameters:
 *description: description for the compnay 
 */
@@ -114,9 +126,8 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware,bodyParser.json(), 
 				res.status(409).send('title already in use');
 			}
 			else{
-				res.status(500).send('server error\nrequired parameters: title(string), url(string)');
+				res.status(500).send(err);
 			}
-
 		}
 		else{
 			res.status(201).send(docs);
