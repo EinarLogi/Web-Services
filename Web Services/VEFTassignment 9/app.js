@@ -94,30 +94,21 @@ api.get('/companies',(req,res) =>{
 api.get('/companies/:id', bodyParser.json(), (req,res)=>{
 	const id = req.params.id;
 
-	const promise = client.search({
-		'index': 'companies',
-		'type': 'feed',
-		'body':{
-			'query':{
-				'match':{
-					'id': id
-				}
-			}
+	models.Company.findOne({'id':id}, (err, docs)=>{
+		if(err){
+			res.status(500).send(err.message);
+			return;
 		}
-		
+		else{
+			const returnObject = {
+				'id': docs.id,
+				'title': docs.title,
+				'description': docs.description,
+				'url': docs.url
+			};
+			res.send(returnObject);
+		}
 	});
-	promise.then((doc)=>{
-		const data = doc.hits.hits[0];
-		const returnObject = {
-			'id': data._source.id,
-			'title': data._source.title,
-			'description': data._source.description,
-			'url': data._source.url
-		}
-		res.send(returnObject);
-	}, (err)=>{
-		res.status(500).send('promise error');
-	})
 });
 
 /*
