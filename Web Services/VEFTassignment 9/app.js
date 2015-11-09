@@ -94,19 +94,26 @@ api.get('/companies',(req,res) =>{
 api.get('/companies/:id', bodyParser.json(), (req,res)=>{
 	const id = req.params.id;
 
-	models.Company.findOne({'id':id}, (err, docs)=>{
+	models.Company.find({'id':id}, (err, docs)=>{
 		if(err){
 			res.status(500).send(err.message);
 			return;
 		}
 		else{
-			const returnObject = {
-				'id': docs.id,
-				'title': docs.title,
-				'description': docs.description,
-				'url': docs.url
-			};
-			res.send(returnObject);
+			if(docs.length === 0){
+				res.status(404).send('');
+			}
+			else{
+				const data = docs[0];
+				const returnObject = {
+					'id': data.id,
+					'title': data.title,
+					'description': data.description,
+					'url': data.url
+				};
+				res.send(returnObject);
+			}
+			
 		}
 	});
 });
@@ -170,4 +177,94 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware,bodyParser.json(), 
 	
 });
 
+/*
+*POST /companies/:id - 20 %
+*This route can be used to update a given company. 
+*The preconditions for POST /company also apply for this route. 
+*Also, if no company is found with by the given :id this route should respond 
+*with status code 404. When the company has been updated in MongoDB then 
+*the corresponding ElasticSearch document must be re-indexed.
+*/
+api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.json(),(req,res)=>{
+
+	const title = req.body.title || -1;
+	const url = req.body.url || -1;
+	const description = req.body.description || -1;
+	const id = req.params.id;
+	models.Company.find({'id':id}, (err, docs)=>{
+		if(err){
+			res.status(500).send(err.message);
+			return;
+		}
+		else{
+			if(docs.length === 0){
+				res.status(404).send('');
+				return;
+			}
+			else{
+				let elasticUpdate = {};
+				const data = docs[0];
+				if(title !== -1){
+					data.title = title;
+					elasticUpdate.title = title;
+				}
+				if(url !== -1){
+					data.url = url;
+					elasticUpdate.url = url;
+				}
+				if(description !== -1){
+					data.description = description;
+					elasticUpdate.description = description;
+				}
+				data.save((err,d)=>{
+					if(err){
+						res.send(err.message);
+						return;
+					}
+					else{
+						/*successfully updated now find change document in elastic search*/
+						console.log('updated');
+						
+						const updatePromise = client.update({
+							'index': 'companies',
+							'type': 'feed',
+							'id': id,
+							'body': {
+								'doc': elasticUpdate
+							}
+						});
+
+						updatePromise.then((updateDoc)=>{
+							res.status(200).send(updateDoc);
+						},(updateErr)=>{
+							res.status(500).send(updateErr);
+						})
+					}
+
+				});
+				
+			}
+			
+		}
+	});
+});
+
+/*
+POST /companies/search - 10%
+*This endpoint can be used to search for a given company that has been added to Punchy. 
+*The search should be placed by into the request body as a Json object on the 
+*following form.
+*{     'search': String represting the search string } 
+*The search can be a full-text search in the company documents within 
+*the Elasticsearch index. The respond should be a list of Json documents 
+*with the following fields
+*id,
+*title
+*description
+*url
+*Other fields should be omitted.
+*/
+api.post('/companies/search',(req.res)=>{
+
+});
 module.exports = api;
