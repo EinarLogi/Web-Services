@@ -74,7 +74,11 @@ api.get('/companies',(req,res) =>{
 		'from': page
 	});
 	promise.then((doc)=>{
-		console.log('get companies inside doc');
+		if(doc.hits.hits.length === 0){
+			res.status(200).send('no companies added');
+			return;
+		}
+
 		res.status(200).send(doc);
 	}, (err)=>{
 		res.status(500).send('promise error');
@@ -208,6 +212,60 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(),
 });
 
 /*
+POST /companies/search - 10%
+*This endpoint can be used to search for a given company that has been added to Punchy. 
+*The search should be placed by into the request body as a Json object on the 
+*following form.
+*{     'search': String represting the search string } 
+*The search can be a full-text search in the company documents within 
+*the Elasticsearch index. The respond should be a list of Json documents 
+*with the following fields
+*id,
+*title
+*description
+*url
+*Other fields should be omitted.
+*/
+api.post('/companies/search', bodyParser.json(), (req,res)=>{
+	const search = req.body.search;
+
+	const promise = client.search({
+		'index': 'companies',
+		'type': 'feed',
+		'body': {
+	    'query': {
+	      'match': {
+	        'title': search
+	      }
+	    }
+	  }
+	});
+	promise.then((doc)=>{
+
+		const documents = doc.hits.hits;
+		let result = [];
+		console.log(documents.length);
+		for(var i = 0; i < documents.length; i++) {
+			console.log(documents[i]._source);
+			let source = documents[i]._source;
+			let data = {
+				id: source.id,
+				title: source.title,
+				description: source.description,
+				url: source.url
+			}
+			result.push(data);
+		}
+		
+		res.status(200).send(result);
+		//res.status(200).send(doc);
+	}, (err)=>{
+		res.status(500).send('search promise error');
+	})
+
+});
+
+/*
 *POST /companies/:id - 20 %
 *This route can be used to update a given company. 
 *The preconditions for POST /company also apply for this route. 
@@ -279,22 +337,4 @@ api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.jso
 	});
 });
 
-/*
-POST /companies/search - 10%
-*This endpoint can be used to search for a given company that has been added to Punchy. 
-*The search should be placed by into the request body as a Json object on the 
-*following form.
-*{     'search': String represting the search string } 
-*The search can be a full-text search in the company documents within 
-*the Elasticsearch index. The respond should be a list of Json documents 
-*with the following fields
-*id,
-*title
-*description
-*url
-*Other fields should be omitted.
-*/
-api.post('/companies/search',(req, res)=>{
-
-});
 module.exports = api;
