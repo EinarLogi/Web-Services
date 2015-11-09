@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const models = require('./models');
 const uuid = require('node-uuid');
+const sortBy = require('sort-by');
 const elasticsearch = require('elasticsearch');
 const api = express();
 
@@ -15,12 +16,6 @@ const client = new elasticsearch.Client({
   host: 'localhost:9200',
   log: 'error'
 });
-/*
- * Checks if header contains a token
- */
-/*const authMiddleware = (req, res, next)=> {
-	next();
-};*/
 
 /*
  * Checks if header contains a admin token
@@ -39,7 +34,9 @@ const adminMiddleware = (req, res, next) =>{
 	}
 };
 
-/* check if the content-type header is application/json */
+/* 
+  * Check if the content-type header is application/json 
+ */
 const contentTypeMiddleware = (req, res, next) =>{
 	if(req.is('application/json')){
 		next();
@@ -49,20 +46,11 @@ const contentTypeMiddleware = (req, res, next) =>{
 	}
 };
 
-/*GET /companies[?page=N&max=N]
-*Endpoint for fetching list of companies that have been added to Punchy. 
-*The companies should be fetched from ElasticSearch. This endpoint should return 
-*a list of Json objects with the following fields.
-*id,
-*title
-*description
-*url
-*Other fields should be excluded. This endpoint accepts two request parameters, 
-*page and max. If they are not presented they should be defaulted by 0 and 20 respectively. 
-*They should control the pagination in Elasticsearch and allow the client to paginate the result.
-*The list should be ordered by alphabetically by the company title.
-*/
-
+/*
+ * Fetches a a list of all companies in the ElasticSearc
+ * and returns them in alphabetically sorted json object.
+ * This endpoint supports paging an accepts two optional request parameters, page and max.
+ */
 api.get('/companies',(req,res) =>{
 	const page = req.query.page || 0;
 	const max = req.query.max || 20;
@@ -75,29 +63,41 @@ api.get('/companies',(req,res) =>{
 	});
 	promise.then((doc)=>{
 		if(doc.hits.hits.length === 0){
-			res.status(200).send('no companies added');
+			res.status(200).send('No companies added');
 			return;
 		}
 
-		res.status(200).send(doc);
+		/* Create json object from the elasticsearch data */
+		const documents = doc.hits.hits;
+		let result = [];
+		for(var i = 0; i < documents.length; ++i) {
+			let source = documents[i]._source;
+			let data = {
+				id: source.id,
+				title: source.title,
+				description: source.description,
+				url: source.url
+			}
+			result.push(data);
+		}
+		
+		/* Sort alphabetically */
+		result.sort(sortBy('title'));
+
+		res.status(200).send(result);
 	}, (err)=>{
-		res.status(500).send('promise error');
+		res.status(500).send(err);
 	})
 });
 
-/*GET /companies/:id - 20%
-*Fetch a given company by id from Mongodb. If no company we return an empty 
-*response with status code 404. If a given company is found we return a Json object 
-*with the following fields.
-*id,
-*title
-*description
-*url
-*Other fields should be omitted from the response.
-*/
-api.get('/companies/:id', bodyParser.json(), (req,res)=>{
+/*
+ * Fetch a given company by id from Mongodb.
+ * Returns the company as json object.
+ */
+api.get('/companies/:id', bodyParser.json(), (req, res)=>{
 	const id = req.params.id;
 
+	/* Look for a company in MongoDb with a given in */
 	models.Company.find({'id':id}, (err, docs)=>{
 		if(err){
 			res.status(500).send(err.message);
@@ -115,18 +115,16 @@ api.get('/companies/:id', bodyParser.json(), (req,res)=>{
 					'description': data.description,
 					'url': data.url
 				};
-				res.send(returnObject);
+				res.status(200).send(returnObject);
 			}
 			
 		}
 	});
 });
 
-/*
- * All the preconditions from POST /company also apply for this route. 
- * If not company is found by the :id then the routes should respond with status code 404. 
- * The company document must be deleted from MongoDB and from ElasticSearch.
- */
+ /*
+  * Removes the company with the given id from both the MongoDb and ElasticSearch
+  */
 api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 	
 	const companyId = req.params.id;
@@ -146,22 +144,19 @@ api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 			});
 
 			promise.then((doc) => {
-				res.status(200).send("Success");
+				res.status(200).send('Success');
 			},(err)=>{
-				res.status(404).send("Not Found");
+				res.status(404).send('Not Found');
 			});
 		}
 	});
 });
 
 /*
-*required parameters:
-*title: name of the company
-*url: company's homepage
-*optional parameters:
-*description: description for the compnay 
-*/
-api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(), (req,res)=>{
+ * This route is used to create new companies in Punchy.
+ * If preconditions are met then the company is written to MongoDB and ElasticSearch.
+ */
+api.post('/companies', adminMiddleware, contentTypeMiddleware, bodyParser.json(), (req,res)=>{
 	const data = req.body;
 	let newCompany = new models.Company(data);
 	const id = uuid.v4();
@@ -171,20 +166,21 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(),
 
 	newCompany.id = id;
 	newCompany.created = created;
-	console.log(newCompany);
 	newCompany.save((err,docs) =>{
 		if(err){
-			/*check if title exists */
-			if(err.message.indexOf('title') > -1){
+			/* Check if title exists */
+			if(err.message.indexOf('title') > -1) {
 				res.status(409).send('title already in use');
 			}
+			else if(err.message.indexOf('Company validation failed') > -1) {
+				res.status(412).send('Preconditions failed');
+			}
 			else{
-				res.status(500).send(err);
+				res.status(500).send(err.message);
 			}
 		}
 		else{
-			res.status(201).send(docs);
-
+			/* Create company value for the database */
 			const stuff = {
 				'id': newCompany.id,
 				'title': title,
@@ -200,10 +196,8 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(),
 				'body': stuff
 			});
 			promise.then((doc)=>{
-				console.log('inside promise');
-				console.log(doc);
+				res.status(201).send(stuff);
 			},(eerr)=>{
-				console.log('inside promise err');
 				res.status(500);
 			});
 		}
@@ -218,6 +212,7 @@ api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(),
 api.post('/companies/search', bodyParser.json(), (req,res)=>{
 	const search = req.body.search;
 
+	/* Search for all documents with the given string within the ElasticSearc index */
 	const promise = client.search({
 		'index': 'companies',
 		'type': 'feed',
@@ -236,7 +231,6 @@ api.post('/companies/search', bodyParser.json(), (req,res)=>{
 		const documents = doc.hits.hits;
 		let result = [];
 		for(var i = 0; i < documents.length; ++i) {
-			console.log(documents[i]._source);
 			let source = documents[i]._source;
 			let data = {
 				id: source.id,
@@ -255,19 +249,16 @@ api.post('/companies/search', bodyParser.json(), (req,res)=>{
 });
 
 /*
-*POST /companies/:id - 20 %
-*This route can be used to update a given company. 
-*The preconditions for POST /company also apply for this route. 
-*Also, if no company is found with by the given :id this route should respond 
-*with status code 404. When the company has been updated in MongoDB then 
-*the corresponding ElasticSearch document must be re-indexed.
-*/
+ * Route used to update a company with given id.
+ * Updates both the MongoDb and ElasticSearch.
+ */
 api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.json(),(req,res)=>{
 
 	const title = req.body.title || -1;
 	const url = req.body.url || -1;
 	const description = req.body.description || -1;
 	const id = req.params.id;
+	/* Search for company with given id in the MongoDb */
 	models.Company.find({'id':id}, (err, docs)=>{
 		if(err){
 			res.status(500).send(err.message);
@@ -275,10 +266,10 @@ api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.jso
 		}
 		else{
 			if(docs.length === 0){
-				res.status(404).send('');
+				res.status(404).send('Compnay not found');
 				return;
 			}
-			else{
+			else{	/* Updateing ElasticSearch after MongoDb */
 				let elasticUpdate = {};
 				const data = docs[0];
 				if(title !== -1){
@@ -299,9 +290,7 @@ api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.jso
 						return;
 					}
 					else{
-						/*successfully updated now find change document in elastic search*/
-						console.log('updated');
-						
+						/* Successfully updated now find change document in elastic search*/
 						const updatePromise = client.update({
 							'index': 'companies',
 							'type': 'feed',
@@ -312,7 +301,7 @@ api.post('/companies/:id',adminMiddleware, contentTypeMiddleware, bodyParser.jso
 						});
 
 						updatePromise.then((updateDoc)=>{
-							res.status(200).send(updateDoc);
+							res.status(204).send('');
 						},(updateErr)=>{
 							res.status(500).send(updateErr);
 						})
