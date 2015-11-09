@@ -135,9 +135,9 @@ api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 			});
 
 			promise.then((doc) => {
-				res.status(200).send(doc);
+				res.status(200).send("Success");
 			},(err)=>{
-				res.status(404).send(docs);
+				res.status(404).send("Not Found");
 			});
 		}
 	});
