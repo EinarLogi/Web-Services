@@ -148,9 +148,6 @@ api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 			});
 		}
 	});
-	
-
-	//res.status(200).send(companyId);
 });
 
 /*
@@ -160,7 +157,7 @@ api.delete('/companies/:id', bodyParser.json(), (req,res) => {
 *optional parameters:
 *description: description for the compnay 
 */
-api.post('/companies',adminMiddleware, contentTypeMiddleware,bodyParser.json(), (req,res)=>{
+api.post('/companies',adminMiddleware, contentTypeMiddleware, bodyParser.json(), (req,res)=>{
 	const data = req.body;
 	let newCompany = new models.Company(data);
 	const id = uuid.v4();
@@ -297,7 +294,7 @@ POST /companies/search - 10%
 *url
 *Other fields should be omitted.
 */
-api.post('/companies/search',(req.res)=>{
+api.post('/companies/search',(req, res)=>{
 
 });
 module.exports = api;
